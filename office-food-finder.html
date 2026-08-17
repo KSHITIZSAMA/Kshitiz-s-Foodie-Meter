@@ -1,0 +1,2199 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kshitiz's Foodie Meter — I-Thum Food Court Price Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-page: #F8F6F0;
+    --bg-subtle: #F1EDE4;
+    --bg-card: #FFFFFF;
+    --border-card: #E8E2D4;
+    --border-subtle: #ECE6DA;
+    --shadow-sm: 0 2px 4px rgba(28, 25, 23, 0.03);
+    --shadow-md: 0 8px 24px -4px rgba(28, 25, 23, 0.06), 0 2px 6px -1px rgba(28, 25, 23, 0.04);
+    --shadow-lg: 0 16px 32px -8px rgba(28, 25, 23, 0.1);
+    
+    --text-main: #1C1917;
+    --text-muted: #57534E;
+    --text-light: #78716C;
+    
+    --primary: #D94A38;
+    --primary-hover: #B83525;
+    --primary-light: #FDF2F0;
+    
+    --emerald-bg: #ECFDF5;
+    --emerald-text: #047857;
+    --emerald-border: #A7F3D0;
+    
+    --gold-bg: #FEF3C7;
+    --gold-text: #B45309;
+    
+    --chip-bg: #FFFFFF;
+    --chip-border: #E2DDD3;
+    --chip-hover: #FDF2F0;
+
+    --bg-overlay-gradient: rgba(248, 246, 240, 0.88), rgba(248, 246, 240, 0.94);
+
+    --shop-1:#EF4444;--shop-2:#10B981;--shop-3:#3B82F6;--shop-4:#F59E0B;
+    --shop-5:#8B5CF6;--shop-6:#EC4899;--shop-7:#14B8A6;--shop-8:#6366F1;
+    --shop-9:#84CC16;--shop-10:#D97706;--shop-11:#06B6D4;--shop-12:#A855F7;--shop-13:#F43F5E;
+  }
+
+  [data-theme="dark"] {
+    --bg-page: #0F172A;
+    --bg-subtle: #1E293B;
+    --bg-card: #1E293B;
+    --border-card: #334155;
+    --border-subtle: #1E293B;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 16px 32px -8px rgba(0, 0, 0, 0.4);
+    
+    --text-main: #F8FAFC;
+    --text-muted: #CBD5E1;
+    --text-light: #94A3B8;
+    
+    --primary: #F87171;
+    --primary-hover: #EF4444;
+    --primary-light: rgba(248, 113, 113, 0.15);
+    
+    --emerald-bg: rgba(6, 78, 59, 0.4);
+    --emerald-text: #34D399;
+    --emerald-border: #059669;
+    
+    --gold-bg: rgba(180, 83, 9, 0.3);
+    --gold-text: #FBBF24;
+    
+    --chip-bg: #1E293B;
+    --chip-border: #334155;
+    --chip-hover: #334155;
+
+    --bg-overlay-gradient: rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.94);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    padding-bottom: 80px;
+    position: relative;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -24px; left: -24px; right: -24px; bottom: -24px;
+    z-index: -1;
+    background-image: 
+      linear-gradient(var(--bg-overlay-gradient)),
+      url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1920&q=80');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: blur(14px) brightness(0.9);
+    opacity: 0.75;
+    pointer-events: none;
+  }
+
+  .font-display {
+    font-family: 'Outfit', sans-serif;
+  }
+
+  /* Sticky Top Bar */
+  .top-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(248, 246, 240, 0.85);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.25s ease;
+  }
+  [data-theme="dark"] .top-navbar {
+    background: rgba(15, 23, 42, 0.85);
+  }
+  .brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 17px;
+    font-weight: 800;
+    text-decoration: none;
+    color: var(--text-main);
+  }
+  .brand-logo .logo-icon {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #D94A38, #F59E0B);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 15px;
+    box-shadow: 0 4px 10px rgba(217, 74, 56, 0.3);
+  }
+  .top-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .stats-pill {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--bg-subtle);
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border-subtle);
+  }
+  .theme-toggle {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-card);
+    color: var(--text-main);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+  }
+  .theme-toggle:hover {
+    background: var(--border-card);
+  }
+
+  /* Header Hero Section */
+  header.hero {
+    padding: 36px 20px 24px;
+    text-align: center;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--emerald-bg);
+    color: var(--emerald-text);
+    border: 1px solid var(--emerald-border);
+    padding: 5px 14px;
+    border-radius: 30px;
+    margin-bottom: 16px;
+  }
+  h1.hero-title {
+    font-size: clamp(32px, 5.5vw, 54px);
+    font-weight: 800;
+    margin: 0 0 10px;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--text-main);
+  }
+  h1.hero-title span {
+    background: linear-gradient(135deg, #D94A38 0%, #F59E0B 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .sub {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.55;
+    max-width: 580px;
+    margin: 0 auto 24px;
+  }
+
+  /* Search Wrap */
+  .search-wrap {
+    position: relative;
+    max-width: 660px;
+    margin: 0 auto 16px;
+  }
+  .search-box-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .search-icon {
+    position: absolute;
+    left: 18px;
+    color: var(--text-light);
+    pointer-events: none;
+    display: flex;
+  }
+  #search {
+    width: 100%;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 16px 46px 16px 48px;
+    border: 2px solid var(--border-card);
+    background: var(--bg-card);
+    color: var(--text-main);
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    outline: none;
+    transition: all 0.2s ease;
+  }
+  #search:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-light), var(--shadow-md);
+  }
+  #search::placeholder {
+    color: var(--text-light);
+  }
+  .clear-btn {
+    position: absolute;
+    right: 14px;
+    background: var(--bg-subtle);
+    border: none;
+    color: var(--text-light);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: all 0.15s ease;
+  }
+  .clear-btn:hover {
+    background: var(--border-card);
+    color: var(--text-main);
+  }
+  .kbd-shortcut {
+    position: absolute;
+    right: 16px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-light);
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-card);
+    padding: 3px 8px;
+    border-radius: 6px;
+    pointer-events: none;
+  }
+
+  /* Quick Search Pills */
+  .quick-chips {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    max-width: 720px;
+    margin: 0 auto 20px;
+  }
+  .chip {
+    font-size: 12.5px;
+    font-weight: 600;
+    background: var(--chip-bg);
+    border: 1px solid var(--chip-border);
+    color: var(--text-muted);
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    user-select: none;
+  }
+  .chip:hover {
+    background: var(--chip-hover);
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-1px);
+  }
+  .chip.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(217, 74, 56, 0.25);
+  }
+
+  /* Controls & Filter Bar */
+  .controls-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 820px;
+    margin: 0 auto 24px;
+    padding: 0 4px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .tabs {
+    display: flex;
+    background: var(--bg-subtle);
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    gap: 4px;
+  }
+  .tab {
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tab:hover {
+    color: var(--text-main);
+  }
+  .tab.active {
+    background: var(--bg-card);
+    color: var(--primary);
+    box-shadow: var(--shadow-sm);
+  }
+  .filter-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .select-input {
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-card);
+    background: var(--bg-card);
+    color: var(--text-main);
+    outline: none;
+    cursor: pointer;
+  }
+  .select-input:focus {
+    border-color: var(--primary);
+  }
+
+  /* Main Container */
+  main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  /* Stats Summary Banner */
+  .results-summary {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px;
+  }
+  .savings-summary-pill {
+    font-size: 12px;
+    background: var(--emerald-bg);
+    color: var(--emerald-text);
+    padding: 4px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--emerald-border);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Empty State */
+  .empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 60px 20px;
+    background: var(--bg-card);
+    border: 1px dashed var(--border-card);
+    border-radius: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .empty-icon {
+    font-size: 42px;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .empty .display {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 6px;
+  }
+
+  /* Dish Group Cards */
+  .dish-group {
+    margin-bottom: 20px;
+    border: 1px solid var(--border-card);
+    background: var(--bg-card);
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .dish-group:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+  .dish-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: var(--bg-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    gap: 12px;
+  }
+  .dish-head-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dish-head h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-main);
+  }
+  .dish-count-tag {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    background: var(--bg-card);
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border-card);
+  }
+  .savings-badge {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--emerald-text);
+    background: var(--emerald-bg);
+    border: 1px solid var(--emerald-border);
+    padding: 4px 10px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Dish Row */
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border-subtle);
+    gap: 12px;
+    transition: background 0.15s ease;
+  }
+  .row:last-child { border-bottom: none; }
+  .row.cheapest {
+    background: var(--emerald-bg);
+  }
+  .row-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+  .shop-chip {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex: none;
+  }
+  .shop-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .shop-name {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+  .best-badge {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #10B981, #059669);
+    color: #ffffff;
+    padding: 3px 8px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+  }
+
+  .row-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: none;
+  }
+  .price {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--primary);
+    white-space: nowrap;
+  }
+  .like-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 20px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    transition: all 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .like-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: scale(1.05);
+  }
+  .like-btn:active { transform: scale(0.92); }
+  .like-btn.liked {
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary-hover);
+    box-shadow: 0 4px 12px rgba(217, 74, 56, 0.3);
+  }
+  .like-btn .heart {
+    font-size: 14px;
+  }
+
+  /* Browse View */
+  .browse-cat {
+    margin-bottom: 28px;
+  }
+  .browse-cat h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: capitalize;
+    color: var(--text-main);
+    margin: 0 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .browse-cat h3 span {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-light);
+    background: var(--bg-subtle);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  .browse-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 10px;
+  }
+  .browse-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 12px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .browse-item:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .browse-item .n {
+    font-weight: 700;
+    font-size: 13.5px;
+    display: block;
+    color: var(--text-main);
+    margin-bottom: 4px;
+  }
+  .browse-item .p {
+    color: var(--text-light);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* Rank Leaderboard */
+  .rank-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s ease;
+  }
+  .rank-item:hover {
+    transform: translateX(4px);
+  }
+  .rank-num {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-subtle);
+    color: var(--text-muted);
+    flex: none;
+  }
+  .rank-item.top-1 .rank-num {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+  }
+  .rank-item.top-2 .rank-num {
+    background: linear-gradient(135deg, #94A3B8, #64748B);
+    color: #fff;
+  }
+  .rank-item.top-3 .rank-num {
+    background: linear-gradient(135deg, #D97706, #B45309);
+    color: #fff;
+  }
+  .rank-mid { flex: 1; min-width: 0; }
+  .rank-dish { font-weight: 700; font-size: 16px; color: var(--text-main); margin-bottom: 2px; }
+  .rank-shop { font-size: 12.5px; color: var(--text-muted); font-weight: 500; }
+  .rank-right { display: flex; align-items: center; gap: 16px; flex: none; }
+
+  /* Toast notification */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--text-main);
+    color: var(--bg-page);
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+  }
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  footer {
+    text-align: center;
+    padding: 30px 20px 10px;
+    font-size: 12px;
+    color: var(--text-light);
+  }
+  .shared-note {
+    max-width: 640px; margin: 16px auto 0; padding: 0 20px;
+    font-size: 12px; color: var(--text-light); text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .controls-bar { flex-direction: column; align-items: stretch; }
+    .tabs { justify-content: center; }
+    .filter-group { justify-content: space-between; }
+    .top-navbar .stats-pill { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Top Navigation -->
+<nav class="top-navbar">
+  <a href="#" class="brand-logo font-display">
+    <span class="logo-icon">🍱</span>
+    Kshitiz's Foodie Meter
+  </a>
+  <div class="top-actions">
+    <span class="stats-pill" id="statsPill">13 Shops · 400+ Dishes</span>
+    <button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark Theme">
+      <span id="themeIcon">☀️</span> <span id="themeLabel">Light</span>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<header class="hero">
+  <h1 class="hero-title font-display">Kshitiz's <span>Foodie Meter</span></h1>
+  <p class="sub">Search any food item to see who sells it cheapest around the office — then vote for your favorites and watch the food rankings update in real time.</p>
+  
+  <div class="search-wrap">
+    <div class="search-box-container">
+      <span class="search-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      </span>
+      <input id="search" type="text" placeholder="Search dish e.g. paneer roll, cold coffee, momos..." autocomplete="off">
+      <button class="clear-btn" id="clearBtn" title="Clear search">✕</button>
+      <span class="kbd-shortcut" id="kbdShortcut">/</span>
+    </div>
+  </div>
+
+  <!-- Quick Filter Pills -->
+  <div class="quick-chips" id="quickChips">
+    <button class="chip" data-query="paneer roll">🌯 Paneer Roll</button>
+    <button class="chip" data-query="cold coffee">☕ Cold Coffee</button>
+    <button class="chip" data-query="momos">🥟 Momos</button>
+    <button class="chip" data-query="thali">🍱 Thali</button>
+    <button class="chip" data-query="burger">🍔 Burger</button>
+    <button class="chip" data-query="maggi">🍜 Maggi</button>
+    <button class="chip" data-query="pizza">🍕 Pizza</button>
+    <button class="chip" data-query="shake">🥤 Shakes</button>
+    <button class="chip" data-query="sandwich">🥪 Sandwich</button>
+    <button class="chip" data-query="omlette">🍳 Omlette</button>
+  </div>
+</header>
+
+<!-- Controls & Tabs Bar -->
+<div class="controls-bar">
+  <div class="tabs">
+    <button class="tab active" data-tab="search">🔍 Search & Compare</button>
+    <button class="tab" data-tab="browse">🍱 Browse Categories</button>
+    <button class="tab" data-tab="rank">🏆 Top Ranked</button>
+  </div>
+  
+  <div class="filter-group">
+    <select class="select-input" id="shopFilter">
+      <option value="">All 13 Shops</option>
+    </select>
+    <select class="select-input" id="sortFilter">
+      <option value="cheapest">Cheapest First</option>
+      <option value="shops">Most Shops Offering</option>
+      <option value="name">Name (A-Z)</option>
+    </select>
+  </div>
+</div>
+
+<main id="main"></main>
+
+<div class="toast" id="toast">Dish added to rankings!</div>
+
+<p class="shared-note">Likes are shared — everyone who opens this board sees and adds to the same ranking.</p>
+<footer>Prices aggregated from official laminated menus. Verify before ordering — laminate fades, prices change!</footer>
+
+<script>
+const RAW = `
+Rolla Rappaa|Veg Rolls|Aloo Roll|81
+Rolla Rappaa|Veg Rolls|Peri Peri Potato Roll|87
+Rolla Rappaa|Veg Rolls|Cheesy Potato Roll|98
+Rolla Rappaa|Veg Rolls|Melted Cheese Roll|98
+Rolla Rappaa|Veg Rolls|Veg Shami Kebab Roll|98
+Rolla Rappaa|Veg Rolls|Seasonal Veg Roll|106
+Rolla Rappaa|Veg Rolls|Cheesy Kebab Roll|128
+Rolla Rappaa|Veg Rolls|Soya Chaap Roll|134
+Rolla Rappaa|Veg Rolls|Achari Paneer Roll|142
+Rolla Rappaa|Veg Rolls|Paneer Roll|144
+Rolla Rappaa|Veg Rolls|Chilly Paneer Roll|152
+Rolla Rappaa|Veg Rolls|Mafia Paneer Roll|168
+Rolla Rappaa|Veg Rolls|Paneer Bhurji Roll|168
+Rolla Rappaa|Veg Rolls|Butter Paneer Roll|172
+Rolla Rappaa|Veg Rolls|Super Veg Roll|178
+Rolla Rappaa|Veg Rolls|Mafia Veg Roll|188
+Rolla Rappaa|Veg Rolls|Paneer Gravy Dip in Roll|206
+Rolla Rappaa|Veg Rolls|Veg Big Daddy Roll|206
+Rolla Rappaa|Non Veg Rolls|Egg Roll|56
+Rolla Rappaa|Non Veg Rolls|Desi Anda Roll|62
+Rolla Rappaa|Non Veg Rolls|Italian Egg Roll|86
+Rolla Rappaa|Non Veg Rolls|Cheese Melt Egg Roll|88
+Rolla Rappaa|Non Veg Rolls|Anda Bhurji Roll|88
+Rolla Rappaa|Non Veg Rolls|Chicken Roll|143
+Rolla Rappaa|Non Veg Rolls|Chicken Seekh Roll|153
+Rolla Rappaa|Non Veg Rolls|Achari Chicken Roll|154
+Rolla Rappaa|Non Veg Rolls|Mafia Chicken Roll|156
+Rolla Rappaa|Non Veg Rolls|Chilly Chicken Roll|158
+Rolla Rappaa|Non Veg Rolls|Bhuna Chicken Roll|162
+Rolla Rappaa|Non Veg Rolls|Cheesy Chicken Seekh Roll|168
+Rolla Rappaa|Non Veg Rolls|Chicken Tikka Roll|186
+Rolla Rappaa|Non Veg Rolls|Butter Chicken Roll|188
+Rolla Rappaa|Non Veg Rolls|Chicken Tikka Gravy Dip in Roll|216
+Rolla Rappaa|Non Veg Rolls|Mutton Seekh Roll|232
+Rolla Rappaa|Non Veg Rolls|Chicken Big Daddy Roll|234
+Rolla Rappaa|Beverages|Masala Nimbu Pani|68
+Rolla Rappaa|Beverages|Masala Orange Blossom|68
+Rolla Rappaa|Beverages|Mango Shake|88
+Rolla Rappaa|Beverages|Strawberry Shake|88
+Rolla Rappaa|Beverages|Chocolate Shake|98
+Rolla Rappaa|Beverages|Mangoberry Blast Shake|98
+Rolla Rappaa|Beverages|Cold Coffee|88
+Rolla Rappaa|Beverages|Oreo Shake|108
+Rolla Rappaa|Beverages|Bubblegum Shake|118
+Rolla Rappaa|Beverages|Blueberry Shake|122
+Rolla Rappaa|Kolkota Classics|Single Egg Double Veg Roll|188
+Rolla Rappaa|Kolkota Classics|Single Egg Double Paneer Roll|197
+Rolla Rappaa|Kolkota Classics|Single Egg Double Chicken Roll|247
+Rolla Rappaa|Kolkota Classics|Single Egg Double Mutton Roll|284
+Rolla Rappaa|Mini Thalis|Egg Bhurji Thali|118
+Rolla Rappaa|Mini Thalis|Kebab Paratha Thali|140
+Rolla Rappaa|Mini Thalis|Soya Chaap Thali|160
+Rolla Rappaa|Mini Thalis|Spicy Paneer Thali|155
+Rolla Rappaa|Mini Thalis|Spicy Chicken Thali|198
+Rolla Rappaa|Mini Thalis|Butter Paneer Masala Thali|200
+Rolla Rappaa|Mini Thalis|Butter Chicken Thali|210
+Rolla Rappaa|Super Sides|Bhel Puri|78
+Rolla Rappaa|Super Sides|Veg Momo|98
+Rolla Rappaa|Super Sides|Chicken Nuggets|98
+Rolla Rappaa|Super Sides|Jumbo Peri Peri Fries|106
+Rolla Rappaa|Super Sides|Jumbo Masala Fries|107
+Rolla Rappaa|Super Sides|Jumbo French Fries|108
+Rolla Rappaa|Super Sides|Chicken Momo|108
+Rolla Rappaa|Super Sides|Super Spicy Mafia Fries|109
+Rolla Rappaa|Super Sides|Jumbo Cheese Loaded Fries|118
+Rolla Rappaa|Super Sides|Cheesy Chicken Nuggets|118
+Rolla Rappaa|Super Sides|Cheesy Veg Momos|128
+Rolla Rappaa|Super Sides|Chicken Cheese Loaded Fries|134
+Rolla Rappaa|Super Sides|Chicken Tikka Bhel|138
+Rolla Rappaa|Super Sides|Cheesy Chicken Momo|158
+Rolla Rappaa|Healthy Rolls|Whole Wheat Chicken Tikka Roll|250
+Rolla Rappaa|Healthy Rolls|Whole Wheat Veg Shami Kebab Roll|140
+Rolla Rappaa|Healthy Rolls|Whole Wheat Mutton Roll|260
+Rolla Rappaa|Roll Shots|Assorted Cutting Rolls Pack of 4 (Veg)|282
+Rolla Rappaa|Roll Shots|Assorted Cutting Rolls Pack of 4 (Non Veg)|358
+Chai Shala|Egg Food|Double Egg Omlette|50
+Chai Shala|Egg Food|Plain Omlette|40
+Chai Shala|Egg Food|Half Fry Omlette|40
+Chai Shala|Egg Food|Egg Bhurji|40
+Chai Shala|Paratha|Gobhi Paratha|70
+Chai Shala|Paratha|Aloo Paratha|60
+Chai Shala|Paratha|Paneer Paratha|80
+Chai Shala|Paratha|Onion Paratha|70
+Chai Shala|Momos Steam|Veg Momos|70
+Chai Shala|Momos Steam|Paneer Momos|90
+Chai Shala|Momos Steam|Chicken Momos|90
+Chai Shala|Wraps|Aloo Tikki Wrap|80
+Chai Shala|Wraps|Paneer Wrap|100
+Chai Shala|Wraps|Chicken Wrap|100
+Chai Shala|Momos Fry|Veg Momos Fry|80
+Chai Shala|Momos Fry|Paneer Momos Fry|100
+Chai Shala|Momos Fry|Chicken Momos Fry|110
+Chai Shala|Spring Roll|Veg Spring Roll|50
+Chai Shala|Spring Roll|Cheese Spring Roll|70
+Chai Shala|Spring Roll|Chicken Spring Roll|80
+Chai Shala|Momos Kurkure|Veg Momos Kurkure|100
+Chai Shala|Momos Kurkure|Paneer Momos Kurkure|120
+Chai Shala|Momos Kurkure|Cheese Corn Momos|140
+Chai Shala|Momos Kurkure|Chicken Momos Kurkure|130
+Chai Shala|Chicken Starters|Chicken Kebab|100
+Chai Shala|Chicken Starters|Chicken Pop Corn|90
+Chai Shala|Cold Coffee|Cold Coffee|70
+Chai Shala|Cold Coffee|Cold Coffee (Ice Cream)|80
+Chai Shala|Cold Coffee|Cold Hazelnut Coffee|90
+Chai Shala|Shake|Chocolate Shake|70
+Chai Shala|Shake|Oreo Shake|80
+Chai Shala|Shake|Kitkat Shake|80
+Chai Shala|Shake|Blue Berry Shake|60
+Chai Shala|Shake|Butter Scotch Shake|60
+Chai Shala|Shake|Banana Shake|60
+Chai Shala|Shake|Mix Fruit Shake|80
+Chai Shala|Mocktails|Ice Tea|50
+Chai Shala|Mocktails|Lemon Ice Tea|60
+Chai Shala|Mocktails|Aam Panna|50
+Chai Shala|Mocktails|Lemonade|50
+Chai Shala|Mocktails|Pulse Banta|80
+Chai Shala|Mocktails|Mojito Mint|60
+Chai Shala|Mocktails|Green Apple Mojito|60
+Chai Shala|Mocktails|Blue Mojito|60
+Chai Shala|Mocktails|Watermelon Mojito|60
+Chai Shala|Combo|Masala Combo (Maggie+Tea)|59
+Chai Shala|Combo|Dilli Ki Sardi|179
+Chai Shala|Combo|Babu Sona Combo|109
+Chai Shala|Combo|Rangeela Chabili|199
+Chai Shala|Combo|Breakfast Light|199
+Chai Shala|Combo|Wrap-N-Grill Combo|149
+Chai Shala|Combo|Chicken Pop Chill Combo|99
+Chai Shala|Combo|Mast Combo|129
+Chai Shala|Maggie|Plain Maggie|40
+Chai Shala|Maggie|Veggie Maggie|50
+Chai Shala|Maggie|Schezwan Maggie|60
+Chai Shala|Maggie|Makhani Maggie|60
+Chai Shala|Maggie|Chaishala Spl Maggie|80
+Chai Shala|Maggie|Butter Maggie|60
+Chai Shala|Maggie|Cheese Corn Maggie|70
+Chai Shala|Maggie|Egg Maggie|70
+Chai Shala|Burger|Aloo Tikki Burger|55
+Chai Shala|Burger|Veg Tikki Burger|70
+Chai Shala|Burger|Cheese Burger|90
+Chai Shala|Burger|Paneer Makhni Burger|120
+Chai Shala|Burger|Chicken Tikki Burger|80
+Chai Shala|Burger|Spicy Chicken Burger|90
+Chai Shala|Sandwiches|Veg Grill Sandwich|60
+Chai Shala|Sandwiches|Paneer Peri Sandwich|80
+Chai Shala|Sandwiches|Cheese Corn Sandwich|90
+Chai Shala|Sandwiches|Paneer Tikka Sandwich|115
+Chai Shala|Sandwiches|Chaishala Spl Sandwich|150
+Chai Shala|Sandwiches|Chicken Sandwich|99
+Chai Shala|Noodles|Veg Noodles|80
+Chai Shala|Noodles|Schezwan Noodles|80
+Chai Shala|Noodles|Paneer Noodles|90
+Chai Shala|Noodles|Egg Noodles|90
+Chai Shala|Noodles|Chicken Noodles|90
+Chai Shala|Pasta|White Sauce Pasta|60
+Chai Shala|Pasta|Red Sauce Pasta|60
+Chai Shala|Pasta|Mix Sauce Pasta|70
+Chai Shala|Rice|Veg Fry Rice|60
+Chai Shala|Rice|Paneer Fry Rice|70
+Chai Shala|Rice|Chicken Fry Rice|80
+Chai Shala|Soup|Mix Vegetable Soup|50
+Chai Shala|Soup|Tomato Soup|50
+Chai Shala|Soup|Manchow Soup|50
+Chai Shala|Soup|Sweet Corn Soup|50
+Chai Shala|Fries|Salted French Fries|60
+Chai Shala|Fries|Peri Peri Fries|70
+Chai Shala|Fries|Sauce French Fries|80
+Chai Shala|Chaat|Corn Chaat|50
+Chai Shala|Chaat|Aloo Tikki Chaat|50
+Chai Shala|Chaat|Papadi Chaat|50
+Chai Shala|Patties|Aloo Patty|20
+Chai Shala|Patties|Masala Patty|35
+Chai Shala|Patties|Cheese Patty|35
+Chai Shala|Patties|Paneer Patty|40
+Chai Shala|Garam Chai|Regular Tea|10
+Chai Shala|Garam Chai|Chai Shala Spl Chai|20
+Chai Shala|Garam Chai|Gulab Chai|20
+Chai Shala|Garam Chai|Chocolate Chai|20
+Chai Shala|Garam Chai|Jafran-Kesar Chai|20
+Chai Shala|Garam Chai|Adrak Elaichi|20
+Chai Shala|Garam Chai|Lemon Tea|25
+Chai Shala|Coffee|Black Coffee|25
+Chai Shala|Coffee|Hot Coffee|30
+Chai Shala|Coffee|Hot Hazelnut Coffee|60
+Chai Shala|Light Meals|Poha|50
+Chai Shala|Light Meals|Bread Toast|20
+Chai Shala|Light Meals|Bun Maska|30
+Chai Shala|Light Meals|Rava Vegg Appe|65
+Chai Shala|Light Meals|Rava Appe Cheese Corn|90
+Chai Shala|Hot Tea|Ginger Chai|25
+Chai Shala|Hot Tea|Special Ginger Chai|30
+Chai Shala|Hot Tea|Ginger Masala Chai|30
+Chai Shala|Hot Tea|Ginger Elaichi Chai|35
+Chai Shala|Hot Tea|Elaichi Chai|35
+Chai Shala|Hot Tea|Gur Chai|35
+Chai Shala|Hot Tea|Ginger Gur Chai|40
+Chai Shala|Hot Tea|Kashmiri Kahwa|50
+Chai Shala|Hot Coffee 2|American Coffee (Black)|32
+Chai Shala|Hot Coffee 2|Hot Coffee|50
+Chai Shala|Hot Chocolate Milk|Choco Mocho Coffee|70
+Chai Shala|Hot Chocolate Milk|Caramel Coffee|70
+Chai Shala|Hot Chocolate Milk|Hazelnut Coffee|70
+Chai Shala|Hot Chocolate Milk|Irish Coffee|70
+Chai Shala|Hot Chocolate Milk|Hot Chocolate Milk|79
+Chai Shala|Hot Chocolate Milk|Hot Caramel Milk|79
+Chai Shala|Ice Tea 2|Lemon Ice Tea|69
+Chai Shala|Ice Tea 2|Orange Ice Tea|69
+Chai Shala|Ice Tea 2|Peach Ice Tea|69
+Chai Shala|Ice Tea 2|Mango Ice Tea|69
+Chai Shala|Ice Tea 2|Strawberry Ice Tea|69
+Chai Shala|Ice Tea 2|Green Apple Ice Tea|69
+Chai Shala|Ice Tea 2|Blue Lagoon Ice Tea|69
+Chai Shala|Ice Tea 2|Kiwi Ice Tea|69
+Chai Shala|Ice Tea 2|Watermelon Ice Tea|69
+Chai Shala|Ice Tea 2|Red Berry Ice Tea|69
+Chai Shala|Ice Tea 2|Blueberry Ice Tea|89
+Chai Shala|Ice Tea 2|Cranberry Ice Tea|89
+Chai Shala|Mojito 2|Mint Mojito|89
+Chai Shala|Mojito 2|Strawberry Mojito|89
+Chai Shala|Mojito 2|Green Apple Mojito|89
+Chai Shala|Mojito 2|Peach Mojito|89
+Chai Shala|Mojito 2|Watermelon Mojito|89
+Chai Shala|Mojito 2|Kiwi Mojito|89
+Chai Shala|Mojito 2|Blue Lagoon Mojito|89
+Chai Shala|Mojito 2|Mango Mojito|89
+Chai Shala|Mojito 2|Blueberry Mojito|99
+Chai Shala|Lemonade|Lemon Water|39
+Chai Shala|Lemonade|Fresh Lime Soda|59
+Chai Shala|Lemonade|Masala Lemonade|69
+Chai Shala|Lemonade|Strawberry Ginger Lemonade|79
+Chai Shala|Lemonade|Mango Ginger Lemonade|79
+Chai Shala|Shikanji|Masala Soda Shikanji|59
+Chai Shala|Shakes 2|Vanilla Shake|79
+Chai Shala|Shakes 2|Butter-Scotch Shake|79
+Chai Shala|Shakes 2|Mango Shake|99
+Chai Shala|Shakes 2|Hazelnut Shake|99
+Chai Shala|Shakes 2|Caramel Shake|99
+Chai Shala|Shakes 2|Kiwi Shake|99
+Chai Shala|Shakes 2|Choco Cookie Shake|109
+Chai Shala|Shakes 2|Blueberry Shake|109
+Chai Shala|Shakes 2|Brownie Shake|119
+Chai Shala|Quick Bites|Potato Wedges|89
+Chai Shala|Quick Bites|Potato Poppers Chilli Garlic|89
+Chai Shala|Quick Bites|Veg Strips|89
+Chai Shala|Quick Bites|Potato Cheese Nuggets|99
+Chai Shala|Cold Coffee 2|Cold Coffee Hazelnut|89
+Chai Shala|Cold Coffee 2|Cold Coffee Caramel|89
+Chai Shala|Cold Coffee 2|Cold Coffee Irish|99
+Chai Shala|Cold Coffee 2|Cold Coffee Chocolate Cookie|119
+Chai Shala|French Fries|Salted Fries|69
+Chai Shala|French Fries|Peri Peri Fries with Dip|89
+Chai Shala|Bun Makhtan|Bun Makkhan (Amul)|39
+Chai Shala|Bun Makhtan|American/Pepper Bun Makkhan|44
+Chai Shala|Burger 2|Crispy Veg Burger|70
+Chai Shala|Burger 2|Crispy Veg Cheese Burger|90
+Chai Shala|Burger 2|Zinger Tandoori Paneer Burger|110
+Chai Shala|Burger 2|Aloo Tikki Burger|59
+Chai Shala|Burger 2|Double Aloo Tikki Burger|90
+Chai Shala|Pasta 2|White Sauce Pasta|89
+Chai Shala|Pasta 2|Red Sauce Pasta|89
+Chai Shala|Pasta 2|Veg Sauce Pasta|89
+Chai Shala|Wraps 2|Vegetable Wrap|99
+Chai Shala|Wraps 2|Zinger Tandoori Paneer Wrap|129
+Chai Shala|Wraps 2|Tandoori Paneer Wrap|139
+Chai Shala|Wraps 2|Cheese Corn Paneer Wrap|139
+Chai Shala|Wraps 2|Mexican Wrap|139
+Chai Shala|Sandwiches 2|Aloo Vegetable Grilled Sandwich|89
+Chai Shala|Sandwiches 2|Vegetable Grilled Sandwich|99
+Chai Shala|Sandwiches 2|Aloo Tikki Cheese Grilled Sandwich|114
+Chai Shala|Sandwiches 2|Vegetable Cheese Grilled Sandwich|124
+Chai Shala|Sandwiches 2|Cheese Corn Grilled Sandwich|139
+Chai Shala|Sandwiches 2|Tandoori Paneer Grilled Sandwich|139
+Chai Shala|Sandwiches 2|Pao Bhaji Sandwich (Mayo Free)|88
+Chai Shala|Desserts|Brownie with Vanilla Ice Cream|99
+Chai Shala|Vada Pav|Vada Pav|45
+Chai Shala|Vada Pav|Butter Vada Pav|60
+Chai Shala|Vada Pav|Cheese Vada Pav|69
+Chai Shala|Pav Bhaji|Special Pao Bhaji|99
+Chai Shala|Pav Bhaji|Sabudana Vada (2Pc)|40
+Protein 360|Moonglets|Moradabadi Dal|80
+Protein 360|Moonglets|Plain/Zero Oil Moonglet|90
+Protein 360|Moonglets|Veggie Moonglet|130
+Protein 360|Moonglets|Tomato Onion Moonglet|130
+Protein 360|Moonglets|Paneer Moonglet|130
+Protein 360|Moonglets|Cheese Moonglet|160
+Protein 360|Moonglets|Capsicum Sweet Corn Moonglet|170
+Protein 360|Moonglets|Garlic Bread|150
+Protein 360|Moonglets|360 Special Veg Protein|100
+Protein 360|Moonglets|Cozy Egg Moonglet|130
+Protein 360|Chilla|Plain/Zero Oil Chilla|90
+Protein 360|Chilla|Veggie Chilla|130
+Protein 360|Chilla|Paneer Chilla|130
+Protein 360|Chilla|Cozy Egg Chilla|160
+Protein 360|Chilla|360 Special Chilla|130
+Protein 360|Pizza|Regal Margherita Cheese|160
+Protein 360|Pizza|Green Crust|190
+Protein 360|Pizza|Paneer Makhani Royale|190
+Protein 360|Pizza|Flaming Tandoor|190
+Protein 360|Pizza|Harvest Pie|220
+Protein 360|Pizza|Paneer Tikka Delight|220
+Protein 360|Pizza|Maxican Fusion|220
+Protein 360|Pizza|Peri Peri Blaze|220
+Protein 360|Pizza|Spicy Zest|220
+Protein 360|Sandwich|Veg Grilled Sandwich|90
+Protein 360|Sandwich|Whole Egg/White Sandwich|140
+Protein 360|Sandwich|Cheese Sandwich|120
+Protein 360|Sandwich|Crispy Paneer Sandwich|140
+Protein 360|Sandwich|Corn Cheese Sandwich|120
+Protein 360|Sandwich|Corn Paneer Sandwich|120
+Protein 360|Sandwich|Paneer Tandoori Sandwich|160
+Protein 360|Sandwich|Chicken Breast Sandwich|220
+Protein 360|Sandwich|Chicken Tandoori Sandwich|240
+Protein 360|Cold Beverages|Shikanji|60
+Protein 360|Cold Beverages|Lemon Ice Tea|60
+Protein 360|Cold Beverages|Cold Cofee|60
+Protein 360|Cold Beverages|Banana Shake|60
+Protein 360|Cold Beverages|Cold Coffee with Ice Cream|80
+Protein 360|Cold Beverages|Oreo Shake|80
+Protein 360|Cold Beverages|Kit Kat Shake|80
+Protein 360|Cold Beverages|Milk Choklate Shake|80
+Protein 360|Cold Beverages|Straberry Shake|90
+Protein 360|Cold Beverages|Khajur Data Shake|90
+Protein 360|Soup|Sweet Corn Soup|120
+Protein 360|Soup|Tomato Soup|110
+Protein 360|Soup|Veg Noodles Soup|110
+Protein 360|Soup|Hot Grlic Soup|120
+Protein 360|Soup|Manchow Soup|120
+Protein 360|Soup|Mix Veg Soup|140
+Protein 360|Soup|Chicken Soup|140
+Protein 360|Maggie|Plain Maggie|50
+Protein 360|Maggie|Veg Maggie|60
+Protein 360|Maggie|Butter Maggie|60
+Protein 360|Maggie|Cheese Maggie|70
+Protein 360|Maggie|Cheese Corn Maggie|80
+Protein 360|Maggie|Cheese Paneer Maggie|90
+Protein 360|Maggie|Egg Maggie|100
+Protein 360|Maggie|Chicken Breast Maggie|160
+Protein 360|Pasta|Red Pasta|140
+Protein 360|Pasta|Desi Tadka Flavor Pasta|140
+Protein 360|Pasta|White Pasta|160
+Protein 360|Pasta|Tandoori Sauce Pasta|170
+Protein 360|Pasta|Mixed Sauce Pasta|180
+Protein 360|Pasta|Corn Cheese Pasta|170
+Protein 360|Pasta|Chicken Breast Pasta|220
+Protein 360|Burger|Aloo Tikki Burger|50
+Protein 360|Burger|Cheese Corn Burger|70
+Protein 360|Burger|Cheese Grilled Burger|70
+Protein 360|Burger|Classic Veg Burger|70
+Protein 360|Burger|Paneer Burger|90
+Protein 360|Burger|Egg Burger|80
+Protein 360|Burger|Omelet Burger|100
+Protein 360|Burger|Chicken Burger|120
+Protein 360|Burger|Sezwan Chicken Burger|130
+Protein 360|Burger|Desi Double Chicken Burger|160
+Protein 360|Paav Bun & Fries|Bun Maska|40
+Protein 360|Paav Bun & Fries|Bread Butter|40
+Protein 360|Paav Bun & Fries|Choclate Bun|50
+Protein 360|Paav Bun & Fries|Vada Paav|50
+Protein 360|Paav Bun & Fries|Paav Bhaji|120
+Protein 360|Paav Bun & Fries|French Fries|90
+Protein 360|Paav Bun & Fries|Peri Peri Fries|90
+Protein 360|Paav Bun & Fries|Potato Pops|60
+Protein 360|Paav Bun & Fries|Veggie Fingers|60
+Protein 360|Hot Beverages|Regular Milk Tea|10
+Protein 360|Hot Beverages|Special Ginger Milk Tea|20
+Protein 360|Hot Beverages|Hot Coffee|30
+Protein 360|Hot Beverages|Lemon Ginger Tea|40
+Protein 360|Hot Beverages|Lemon Ginger Honey Tea|50
+Protein 360|Hot Beverages|Green Tea|40
+Protein 360|Hot Beverages|Miracle Tea|50
+Protein 360|Hot Beverages|Special Kadha|60
+Protein 360|Hot Beverages|Shilajit Milk|100
+Protein 360|Mocktail/Mojito|Mint & Lime|60
+Protein 360|Mocktail/Mojito|Blueberry Mocktail|80
+Protein 360|Mocktail/Mojito|Raspberry Mocktail|80
+Protein 360|Mocktail/Mojito|Watermelon Mocktail|80
+Protein 360|Mocktail/Mojito|Strawberry Mocktail|80
+Protein 360|Mocktail/Mojito|Virgin Mojito|90
+Protein 360|Mocktail/Mojito|Fruit Jelly|90
+Protein 360|Mocktail/Mojito|Pulse Mojito|90
+Protein 360|Mocktail/Mojito|Tic Tac Mojito|90
+Protein 360|Poha|Protein Poha|50
+Protein 360|Poha|360 Special Poha|100
+Protein 360|Poha|360 Egg Poha|140
+Protein 360|Paratha & Roti|Roti Basket (4)|50
+Protein 360|Paratha & Roti|Plain Paratha (2)|50
+Protein 360|Paratha & Roti|Aaloo Paratha|50
+Protein 360|Paratha & Roti|Aaloo Pyaz Paratha|60
+Protein 360|Paratha & Roti|Mix Paratha|70
+Protein 360|Paratha & Roti|Cheeze Paratha|90
+Protein 360|Paratha & Roti|Paneer Paratha|90
+Protein 360|Paratha & Roti|Egg Paratha|90
+Protein 360|Paratha & Roti|Egg Chicken Paratha|90
+Protein 360|Paratha & Roti|Chicken Paratha|100
+Protein 360|Roll|Veg Roll|70
+Protein 360|Roll|Egg Roll|80
+Protein 360|Roll|Paneer Roll|120
+Protein 360|Roll|Chicken Roll|140
+Protein 360|Roll|Egg Chicken Roll|150
+Protein 360|Egg|Bread Omlette|50
+Protein 360|Egg|Half Fry with Bread|70
+Protein 360|Egg|Egg Bhurji|70
+Protein 360|Khichdi & Oat Bowl|Combo Meal (Rice/Roti)|60
+Protein 360|Khichdi & Oat Bowl|Plain Khichdi|140
+Protein 360|Khichdi & Oat Bowl|Masala Khichdi|140
+Protein 360|Khichdi & Oat Bowl|Plain Dalia|140
+Protein 360|Khichdi & Oat Bowl|Masala Dalia|140
+Protein 360|Khichdi & Oat Bowl|Plain Oat Meal|140
+Protein 360|Khichdi & Oat Bowl|Masala Oat Meal|140
+Protein 360|Salad|Green Salad|80
+Protein 360|Salad|Egg Salad|100
+Protein 360|Salad|Chickpeas Salad|100
+Protein 360|Salad|Lentils Protein Chaat Salad|100
+Protein 360|Salad|Veg Paneer Salad|150
+Protein 360|Salad|Chicken Breast Salad|180
+Protein 360|Starter Chat Chakhna|Alook Tikki Chat|80
+Protein 360|Starter Chat Chakhna|Protein Daal Chaat|90
+Protein 360|Starter Chat Chakhna|Bhel Puri|90
+Protein 360|Starter Chat Chakhna|Peenut Masala|90
+Protein 360|Starter Chat Chakhna|Corn Masala|90
+Protein 360|Starter Chat Chakhna|Paneer Tikka|160
+Protein 360|Thali|Standard Thali|100
+Protein 360|Thali|Special Thali|200
+Protein 360|Thali|Protein Thali|300
+Protein 360|Chinese|Chili/Honey Chili Potato|150
+Protein 360|Chinese|Veg/Garlic Noodles|150
+Protein 360|Chinese|Veg Manchurian (Dry/Gravy)|140
+Protein 360|Chinese|Chili Paneer (Dry/Gravy)|160
+Protein 360|Curry/Gravy|Seasonal Vegetable Curry|120
+Protein 360|Curry/Gravy|Egg Curry|140
+Protein 360|Curry/Gravy|Chicken Curry|180
+Protein 360|Main Course|Dal Makhani|140
+Protein 360|Main Course|Kadhai Paneer|180
+Protein 360|Main Course|Paneer Butter Masala|180
+Protein 360|Main Course|Paneer Lababdar|180
+Protein 360|Main Course|Mix Veg with Paneer|140
+Protein 360|Main Course|Rajma|130
+Protein 360|Main Course|Chhole|130
+Protein 360|Main Course|Dal|130
+Protein 360|Main Course|Aloo Jira|120
+Protein 360|Rice|Plain Rice|70
+Protein 360|Rice|Jira Rice|100
+Protein 360|Rice|Fried Rice|110
+Protein 360|Rice|Egg Fried Rice|130
+WalkOn RestoBar & Club|Thali & Combo|Veg Thali|119
+WalkOn RestoBar & Club|Thali & Combo|Egg Gravy Thali|129
+WalkOn RestoBar & Club|Thali & Combo|Chicken Thali|139
+WalkOn RestoBar & Club|Thali & Combo|Mutton Thali|189
+WalkOn RestoBar & Club|Thali & Combo|Chinese Combo (Veg)|119
+WalkOn RestoBar & Club|Thali & Combo|Chinese Combo (Chicken)|139
+Haveite|Hot Beverages|Hot Tea|10
+Haveite|Hot Beverages|Kulhad Tea|20
+Haveite|Hot Beverages|Hot Coffee|35
+Haveite|Hot Beverages|Black Coffee|35
+Haveite|Drinks|Sweet/Salted Lassi|59
+Haveite|Drinks|Cold Coffee|79
+Haveite|Drinks|Shake (Oreo)|69
+Haveite|Drinks|Shake (Kitkat)|129
+Haveite|Drinks|Shake (Chocolate)|89
+Haveite|Drinks|Mango Lassi|79
+Haveite|Drinks|Mango Shake|69
+Haveite|Drinks|Mint Mojito|69
+Haveite|Drinks|Virgin Mojito|69
+Haveite|Breakfast/Snacks|Bun Maska|35
+Haveite|Breakfast/Snacks|Poha|49
+Haveite|Breakfast/Snacks|Bread Omlet|59
+Haveite|Breakfast/Snacks|Cheese Loaded Bread Omlet|119
+Haveite|Breakfast/Snacks|Cheesy Fries|139
+Haveite|Breakfast/Snacks|Upma|49
+Haveite|Breakfast/Snacks|Veg Nuggets|119
+Haveite|Breakfast/Snacks|Chicken Nuggets|149
+Haveite|Breakfast/Snacks|Chicken Omlet|89
+Haveite|Breakfast/Snacks|Chicken Cheese Omlet|119
+Haveite|Sandwich|Grilled Veg Sandwich|59
+Haveite|Sandwich|Grilled Paneer Sandwich|99
+Haveite|Sandwich|Peri Peri Paneer Sandwich|109
+Haveite|Sandwich|Aloo Mayo Sandwich|79
+Haveite|Sandwich|Cheese Burst Sandwich|89
+Haveite|Sandwich|Cheese Corn Sandwich|89
+Haveite|Sandwich|Chicken Kabab Sandwich|139
+Haveite|Sandwich|Chicken Tikki Sandwich|129
+Haveite|Sandwich|Bread Butter|39
+Haveite|Sandwich|Egg Sandwich|99
+Haveite|Burger|Aloo Tikki Burger|49
+Haveite|Burger|Veg Burger|69
+Haveite|Burger|Tandoori Paneer Tikki Burger|149
+Haveite|Burger|Tandoori Chicken Tikki Burger|109
+Haveite|Burger|Cheese Loaded Aloo Tikki Burger|89
+Haveite|Burger|Cheese Loaded Paneer Tikki Burger|169
+Haveite|Burger|Cheese Loaded Chicken Tikki Burger|129
+Haveite|Burger|Chicken Burger|99
+Haveite|Maggie|Plain Maggie|39
+Haveite|Maggie|Veg Maggie|49
+Haveite|Maggie|Cheese Maggie|69
+Haveite|Maggie|Paneer Maggie|79
+Haveite|Maggie|Egg Maggie|75
+Haveite|Maggie|Chilli Garlic Maggie|69
+Haveite|Chakna/Starters|Pyaaz/Aloo Bhajiya|69
+Haveite|Chakna/Starters|Gobhi Pakoda|79
+Haveite|Chakna/Starters|Panner Pakoda|119
+Haveite|Chakna/Starters|Chinese Bhel|89
+Haveite|Chakna/Starters|French Fries|89
+Haveite|Chakna/Starters|Peri Peri Fries|99
+Haveite|Chakna/Starters|Corn Chaat|69
+Haveite|Chakna/Starters|Peanut Chaat|79
+Haveite|Chakna/Starters|Aloo Tikki Chaat|69
+Haveite|Chakna/Starters|Vegetable Plain Salad|59
+Haveite|Chakna/Starters|Fried Chicken Wings 2pcs|89
+Haveite|Chakna/Starters|Fried Chicken Legs 2pcs|99
+Haveite|Chakna/Starters|Chicken Popcorn 15pcs|99
+Haveite|Pasta|Vegetable Pasta|79
+Haveite|Pasta|Arrabbiata (Red) Pasta|119
+Haveite|Pasta|Alfredo (White) Pasta|129
+Haveite|Pasta|Pink Sauce Pasta|169
+Haveite|Pasta|Exotic Cheese Pasta|149
+Haveite|Wraps|Vegetable Wrap|99
+Haveite|Wraps|Cheese Loaded Wrap|159
+Haveite|Wraps|Aloo Crunch Wrap|129
+Haveite|Wraps|Egg Wrap|149
+Haveite|Wraps|Paneer Tikki Wrap|199
+Haveite|Wraps|Crispy Chicken Tikki Wrap|179
+Haveite|Wraps|Grilled Chicken Kawab Wrap|199
+Haveite|Wraps|Grilled Chicken Kawab Egg Wrap|219
+Haveite|Chinese Dishes|Veg Manchurian|89
+Haveite|Chinese Dishes|Garlic Manchurian|109
+Haveite|Chinese Dishes|Chilly Potato|149
+Haveite|Chinese Dishes|Honey Chilly Potato|169
+Haveite|Chinese Dishes|Chilly Chicken|189
+Haveite|Lunch|Aloo Paratha|40
+Haveite|Lunch|Aloo Pyaz Paratha|45
+Haveite|Lunch|Paneer Paratha|65
+Haveite|Lunch|Seasonal Paratha|50
+Haveite|Lunch|Sattu Paratha|50
+Haveite|Lunch|Gobhi Paratha|40
+Haveite|Lunch|Mix Paratha|50
+Haveite|Lunch|Cheese Loaded Paratha|80
+Haveite|Lunch|Curd 100gm|15
+Haveite|Fried Rice|Paneer Fried Rice|89
+Haveite|Fried Rice|Egg Fried Rice|79
+Haveite|Fried Rice|Chicken Fried Rice|99
+Haveite|Rice/Thali Combo|Rajma Rice|59
+Haveite|Rice/Thali Combo|Chole Rice|59
+Haveite|Rice/Thali Combo|Paneer Rice|69
+Haveite|Rice/Thali Combo|Veg Thali|89
+Haveite|Rice/Thali Combo|Egg Thali|89
+Haveite|Rice/Thali Combo|Chicken Thali|119
+Haveite|Momos|Veg Momos (Steam)|59
+Haveite|Momos|Paneer Momos (Steam)|79
+Haveite|Momos|Chicken Momos (Steam)|79
+Haveite|Momos|Chilly Chicken Momos|119
+Haveite|Momos|Chilly Paneer Momos|119
+Haveite|Bombay Spl|Pav Bhaji|79
+Haveite|Bombay Spl|Vada Pav (1pc)|30
+Haveite|Bombay Spl|Anda Pav|59
+Haveite|Bombay Spl|Omlet Pav|69
+Haveite|Bombay Spl|Egg Bhurji Pav|79
+Haveite|Bombay Spl|Paneer Bhurji|89
+Haveite|Bombay Spl|Paneer Bhurji Pav|109
+The Burger Company|Fries|Salted Fries (Small)|69
+The Burger Company|Fries|Peri Peri Fries (Small)|79
+The Burger Company|Fries|TBC Cheese Loaded Fries (Small)|139
+The Burger Company|Appetizers|Pizza Pockets 3pcs|115
+The Burger Company|Appetizers|Cheese Garlic Breads 4pcs|135
+The Burger Company|Appetizers|Chicken Nuggets 6pcs|159
+The Burger Company|Appetizers|Onion Rings 5pcs|139
+The Burger Company|Non-Veg Burgers|Butter Chicken Burger|89
+The Burger Company|Non-Veg Burgers|Fried Chicken Burger|119
+The Burger Company|Non-Veg Burgers|Crispy Chicken Burger|129
+The Burger Company|Non-Veg Burgers|Korean BBQ Grilled Chicken|179
+The Burger Company|Non-Veg Burgers|Tandoori Grilled Chicken|179
+The Burger Company|Non-Veg Burgers|Chicken Mighty Cheese|189
+The Burger Company|Cheese Volcano Burgers|Texas Cheese Volcano|149
+The Burger Company|Cheese Volcano Burgers|Fiery Cheese Volcano|149
+The Burger Company|Veg Burgers|Veg Rockstar|55
+The Burger Company|Veg Burgers|Veg Snacker|85
+The Burger Company|Veg Burgers|Veg Makhani|99
+The Burger Company|Veg Burgers|Punjabi Gabru|99
+The Burger Company|Veg Burgers|Korean King|139
+The Burger Company|Veg Burgers|Mexican Marvel|149
+The Burger Company|Veg Burgers|Tandoori Paneer|179
+The Burger Company|Veg Burgers|Veg Mighty Cheese|179
+The Burger Company|Crunchos|Cheese Chicken Crunchos|189
+The Burger Company|Crunchos|Mr. Crunchos|199
+The Burger Company|Fried Chicken|Chicken Popcorn|89
+The Burger Company|Fried Chicken|Chicken Wings 6pc|99
+The Burger Company|Fried Chicken|Korean BBQ 2pcs|109
+The Burger Company|Fried Chicken|Chicken Strips 3pc|109
+The Burger Company|Pizzas|Margherita Pizza|169
+The Burger Company|Pizzas|Cheesy Chicken Pizza|199
+The Burger Company|Pizzas|Veg Overloaded Pizza|199
+The Burger Company|Pizzas|Peppy Paneer Pizza|219
+The Burger Company|Pizzas|Tandoori Chicken Pizza|239
+The Burger Company|Pastas|White Sauce Pasta|219
+The Burger Company|Pastas|Pink Sauce Pasta|249
+The Burger Company|Coolers|L.I.T Lemon Iced Tea|79
+The Burger Company|Coolers|Green Apple Mojito|99
+The Burger Company|Coolers|Kaccha Aam|99
+The Burger Company|Coolers|Blueberry Guava|99
+The Burger Company|Coolers|Masala Lemonade|99
+The Burger Company|Coolers|Chilli Guava|119
+The Burger Company|Coolers|Virgin Mojito|119
+The Burger Company|Coolers|Blueberry Lemonade|129
+The Burger Company|Milkshakes|Strawberry Milkshake|129
+The Burger Company|Milkshakes|Butterscotch Milkshake|129
+The Burger Company|Milkshakes|Black Forest Shake|139
+The Burger Company|Milkshakes|Choco Oreo Milkshake|149
+The Burger Company|Milkshakes|Green Apple Injector|149
+The Burger Company|Desserts|Ice Cream Scoop|49
+The Burger Company|Cold Coffee|Classic Cold Coffee|119
+The Burger Company|Cold Coffee|Hazelnut Cold Coffee|129
+The Burger Company|Meal Box|Kids Meal Box|179
+The Burger Company|Meal Box|Veg Meal Box|199
+The Burger Company|Meal Box|Chicken Meal Box|219
+N Square Cafe|Burger|Ultimate Special Bombay Burger|45
+N Square Cafe|Burger|Herb & Chilli Burger|65
+N Square Cafe|Burger|Veg Makhani Burger|75
+N Square Cafe|Burger|Classic Chicken Burger|80
+N Square Cafe|Burger|Butter Chicken Burger|96
+N Square Cafe|Combos|Veg Burger Combo|179
+N Square Cafe|Combos|Non-Veg Burger Combo|199
+N Square Cafe|Combos|Veg Sandwich Combo|239
+N Square Cafe|Combos|Non-Veg Sandwich Combo|259
+N Square Cafe|Combos|Veg Wrap Combo|149
+N Square Cafe|Combos|Non Veg Wrap Combo|169
+N Square Cafe|Combos|Veg Momo Combo|159
+N Square Cafe|Combos|Non Veg Momo Combo|179
+N Square Cafe|Kathi Rolls|Veggie Delight Roll|60
+N Square Cafe|Kathi Rolls|Single Veggie Egg Roll|65
+N Square Cafe|Kathi Rolls|Double Egg Roll|75
+N Square Cafe|Kathi Rolls|Paneer Tikka Roll|119
+N Square Cafe|Kathi Rolls|Tandoori Chicken Roll|139
+N Square Cafe|Kathi Rolls|Crispy Chicken Roll|149
+N Square Cafe|Cheese Bite|Corn & Cheese Bite|69
+N Square Cafe|Cheese Bite|Cheese Corn Bite|99
+N Square Cafe|Spring Roll|Veg Spring Roll (6 Pcs)|79
+N Square Cafe|Spring Roll|Paneer Spring Roll|89
+N Square Cafe|Spring Roll|Chicken Spring Roll|99
+N Square Cafe|Wraps|Cheesy Veg Wrap|79
+N Square Cafe|Wraps|Paneer Wrap|89
+N Square Cafe|Wraps|Cheesy Chicken Wrap|99
+N Square Cafe|Egg to Order|Plain Omelette (Double Egg)|40
+N Square Cafe|Egg to Order|Egg Bhurji (Two Bread Slice)|50
+N Square Cafe|Egg to Order|Boiled Egg Maggi (Single Egg)|55
+N Square Cafe|Egg to Order|Boiled Egg Maggi (Double Eggs)|65
+N Square Cafe|Maggi|Plain Maggi|35
+N Square Cafe|Maggi|Veg Maggi|45
+N Square Cafe|Maggi|Cheese Maggi|50
+N Square Cafe|Sandwich|Veg Grilled Sandwich|79
+N Square Cafe|Sandwich|Veg Cheese Sandwich|89
+N Square Cafe|Sandwich|Corn and Cheese Sandwich|109
+N Square Cafe|Sandwich|Paneer Mayo Sandwich|109
+N Square Cafe|Sandwich|Panner Makhani Sandwich|119
+N Square Cafe|Sandwich|Chicken Mayo Sandwich|119
+N Square Cafe|Sandwich|Chicken Tandoori Sandwich|129
+N Square Cafe|Sandwich|Cheesy Chicken Sandwich|129
+N Square Cafe|Momos Veg & Non Veg|Veg Fried Momos|69
+N Square Cafe|Momos Veg & Non Veg|Veg Momos|79
+N Square Cafe|Momos Veg & Non Veg|Cheese Veg Fried Momos|96
+N Square Cafe|Momos Veg & Non Veg|Paneer Momos|99
+N Square Cafe|Momos Veg & Non Veg|Chicken Momos|109
+N Square Cafe|Garlic Bread|Cheese Veg Garlic Bread|89
+N Square Cafe|Garlic Bread|Cheesy Chicken Garlic Bread|109
+N Square Cafe|Garlic Bread|Cheese & Chicken Garlic Bread|119
+N Square Cafe|Bun Maska|Butter Bun Maska|28
+N Square Cafe|Bun Maska|Egg Fry Bun Maska|39
+N Square Cafe|Tea and Coffee|Tea|15
+N Square Cafe|Tea and Coffee|Kulhad Tea|20
+N Square Cafe|Tea and Coffee|Coffee|30
+N Square Cafe|Tea and Coffee|Cold Coffee|80
+N Square Cafe|Mocktails|Nimbu Pani|49
+N Square Cafe|Mocktails|Fresh Lime Soda|69
+N Square Cafe|Mocktails|Mango Shake|69
+N Square Cafe|Mocktails|Chocolate Shake|79
+N Square Cafe|Mocktails|Peach Iced Tea|79
+N Square Cafe|Mocktails|Blue Lagoon|79
+N Square Cafe|Mocktails|Watermelon Mojito|89
+N Square Cafe|Mocktails|Vanilla Shake|89
+Urban Zaika|Thali|Veg Thali|149
+Urban Zaika|Thali|Non-Veg Thali|249
+Mittal's Bakery|Cakes (Half Kg)|Pineapple Cake|300
+Mittal's Bakery|Cakes (Half Kg)|Black Forest Cake|300
+Mittal's Bakery|Cakes (Half Kg)|Butterscotch Cake|300
+Mittal's Bakery|Cakes (Half Kg)|Strawberry Cake|350
+Mittal's Bakery|Cakes (Half Kg)|Mango Cake|350
+Mittal's Bakery|Cakes (Half Kg)|Red Velvet Cake|400
+Mittal's Bakery|Cakes (Half Kg)|Choco Chip Cake|350
+Mittal's Bakery|Cakes (Half Kg)|Truffle Cake|400
+Mittal's Bakery|Cakes (Half Kg)|Fresh Fruit Cake|400
+Mittal's Bakery|Cakes (Half Kg)|Rainbow Cake|400
+Mittal's Bakery|Cakes (Half Kg)|Oreo Cake|350
+Mittal's Bakery|Cakes (Half Kg)|Kitkat Cake|600
+Mittal's Bakery|Cakes (Half Kg)|Marble Cake|350
+Mittal's Bakery|Cakes (Half Kg)|White Forest Cake|350
+Mittal's Bakery|Cakes (Half Kg)|Ice Cream Cake|400
+Mittal's Bakery|Cakes (Half Kg)|Rasmalai Cake|450
+Mittal's Bakery|Cakes (Half Kg)|Caramel Cake|400
+Mittal's Bakery|Cakes (Half Kg)|Carrot Cake|400
+Mittal's Bakery|Cakes (Half Kg)|Ferrero Rocher Cake|800
+Mittal's Bakery|Cakes (Half Kg)|Kiwi Cake|400
+Mittal's Bakery|Snacks|Aloo Patiz|25
+Mittal's Bakery|Snacks|Paneer Patiz|35
+Mittal's Bakery|Snacks|Veg Sandwich|35
+Mittal's Bakery|Snacks|Burger|50
+Mittal's Bakery|Snacks|Veg Pizza|65
+Mittal's Bakery|Snacks|Paneer Roll|60
+Mittal's Bakery|Snacks|Veg Roll|60
+Mittal's Bakery|Jar Cake|Truffle Jar|90
+Mittal's Bakery|Jar Cake|Blueberry Jar|90
+Mittal's Bakery|Jar Cake|Red Velvet Jar|90
+Mittal's Bakery|Pastries|Pineapple Pastry|30
+Mittal's Bakery|Pastries|Black Forest Pastry|40
+Mittal's Bakery|Pastries|Butterscotch Pastry|40
+Mittal's Bakery|Pastries|Truffle Pastry|50
+Mittal's Bakery|Pastries|Mango Pastry|50
+Mittal's Bakery|Pastries|Strawberry Pastry|50
+Mittal's Bakery|Pastries|Red Velvet Pastry|60
+Mittal's Bakery|Desserts|Choco Muffin|40
+Mittal's Bakery|Desserts|Vanilla Muffin|30
+Mittal's Bakery|Desserts|Choco Lava Cake|70
+Mittal's Bakery|Desserts|Red Velvet Lava|70
+Mittal's Bakery|Desserts|Ice Cream Choco Cake|60
+Mittal's Bakery|Desserts|Donuts|60
+Mittal's Bakery|Desserts|Choco Pudding|60
+Mittal's Bakery|Desserts|Pineapple Pudding|60
+Mittal's Bakery|Desserts|Apple Pie|110
+Mittal's Bakery|Desserts|Tart|110
+The Pit Stop Cafe|Hot Tea|Regular Chai|15
+The Pit Stop Cafe|Hot Tea|Masala Chai|20
+The Pit Stop Cafe|Hot Tea|Elaichi Chai|20
+The Pit Stop Cafe|Hot Tea|Kullad Chai|20
+The Pit Stop Cafe|Hot Coffee|Hot Coffee|30
+The Pit Stop Cafe|Hot Coffee|American Coffee (Black)|30
+The Pit Stop Cafe|Hot Coffee|Caramel Coffee|49
+The Pit Stop Cafe|Hot Coffee|Hazelnut Coffee|49
+The Pit Stop Cafe|Hot Coffee|Choco Mocho Coffee|49
+The Pit Stop Cafe|Hot Chocolate Milk|Hot Chocolate Milk|79
+The Pit Stop Cafe|Hot Chocolate Milk|Hot Caramel Milk|79
+The Pit Stop Cafe|Ice Tea|Lemon Ice Tea|49
+The Pit Stop Cafe|Ice Tea|Peach Ice Tea|59
+The Pit Stop Cafe|Ice Tea|Orange Ice Tea|59
+The Pit Stop Cafe|Ice Tea|Mango Ice Tea|59
+The Pit Stop Cafe|Ice Tea|Strawberry Ice Tea|59
+The Pit Stop Cafe|Ice Tea|Blueberry Ice Tea|59
+The Pit Stop Cafe|Ice Tea|Green Apple Tea|59
+The Pit Stop Cafe|Ice Tea|Kiwi Ice Tea|59
+The Pit Stop Cafe|Ice Tea|Red Berry Ice Tea|59
+The Pit Stop Cafe|Pizza's|Cheese Corn Pizza|119
+The Pit Stop Cafe|Pizza's|Cheese Onion Pizza|119
+The Pit Stop Cafe|Pizza's|Cheese Tomato Pizza|109
+The Pit Stop Cafe|Pizza's|Cheese Capsicum Pizza|119
+The Pit Stop Cafe|Pizza's|Cheese Margarita Pizza|139
+The Pit Stop Cafe|Pizza's|Veg Twin Pizza|169
+The Pit Stop Cafe|Pizza's|Paneer Sausy Pizza|180
+The Pit Stop Cafe|Pizza's|Country Special Pizza|190
+The Pit Stop Cafe|Pizza's|Farm House Pizza|199
+The Pit Stop Cafe|Shake|Vanilla Shake|79
+The Pit Stop Cafe|Shake|Chocolate Shake|79
+The Pit Stop Cafe|Shake|Butterscotch Shake|79
+The Pit Stop Cafe|Shake|Strawberry Shake|79
+The Pit Stop Cafe|Shake|Mango Shake|89
+The Pit Stop Cafe|Shake|Blueberry Shake|89
+The Pit Stop Cafe|Shake|Hazelnut Shake|89
+The Pit Stop Cafe|Shake|Caramel Shake|89
+The Pit Stop Cafe|Shake|Kiwi Shake|99
+The Pit Stop Cafe|Shake|Choco Cookie Shake|99
+The Pit Stop Cafe|Shake|Oreo Shake|99
+The Pit Stop Cafe|Shake|Brownie Shake|99
+The Pit Stop Cafe|Cold Coffee|Cold Coffee|69
+The Pit Stop Cafe|Cold Coffee|Cold Coffee Hazelnut|79
+The Pit Stop Cafe|Cold Coffee|Cold Coffee Caramel|79
+The Pit Stop Cafe|Cold Coffee|Cold Coffee Chocolate Cookie|89
+The Pit Stop Cafe|Cold Coffee|Cold Coffee with Ice Cream|99
+The Pit Stop Cafe|Lemonade|Lime Water|30
+The Pit Stop Cafe|Lemonade|Fresh Lime Soda|49
+The Pit Stop Cafe|Lemonade|Masala Lemonade|69
+The Pit Stop Cafe|Lemonade|Strawberry Ginger Lemonade|79
+The Pit Stop Cafe|Lemonade|Mango Ginger Lemonade|79
+The Pit Stop Cafe|Mojito|Mint Mojito|59
+The Pit Stop Cafe|Mojito|Strawberry Mojito|69
+The Pit Stop Cafe|Mojito|Blueberry Mojito|69
+The Pit Stop Cafe|Mojito|Green Apple Mojito|69
+The Pit Stop Cafe|Mojito|Peach Mojito|69
+The Pit Stop Cafe|Mojito|Watermelon Mojito|69
+The Pit Stop Cafe|Mojito|Kiwi Mojito|79
+The Pit Stop Cafe|Mojito|Red Berry Mojito|79
+The Pit Stop Cafe|Mojito|Mango Mojito|79
+The Pit Stop Cafe|Mojito|Blackcurrant Mojito|79
+The Pit Stop Cafe|Shikanji|Masala Soda Shikanji|59
+The Pit Stop Cafe|Healthy|Poha|59
+The Pit Stop Cafe|Healthy|Fruit Chaat|59
+The Pit Stop Cafe|Healthy|Sweet Corn Chaat|69
+The Pit Stop Cafe|Fries|French Fries|79
+The Pit Stop Cafe|Fries|Peri Peri Fries|89
+The Pit Stop Cafe|Fries|Bun Makhan (Amul)|39
+The Pit Stop Cafe|Maggi|Masala Maggi|39
+The Pit Stop Cafe|Maggi|Masala Vegetable Maggi|49
+The Pit Stop Cafe|Maggi|Cheese Maggi|59
+The Pit Stop Cafe|Maggi|Vegetable Cheese Maggi|69
+The Pit Stop Cafe|Maggi|Paneer Maggi|79
+The Pit Stop Cafe|Burger|Aloo Tikki Burger|49
+The Pit Stop Cafe|Burger|Aloo Tikki Cheese Burger|79
+The Pit Stop Cafe|Burger|Aloo Tikki Tandoori Burger|79
+The Pit Stop Cafe|Burger|Veg Paneer Burger|89
+The Pit Stop Cafe|Burger|Royal Paneer Burger|99
+The Pit Stop Cafe|Sandwiches|Vegetable Grilled Sandwich|79
+The Pit Stop Cafe|Sandwiches|Aloo Grilled Sandwich|89
+The Pit Stop Cafe|Sandwiches|Vegetable Cheese Grilled Sandwich|99
+The Pit Stop Cafe|Sandwiches|Peri Peri Paneer Grilled Sandwich|109
+The Pit Stop Cafe|Sandwiches|Tandoori Paneer Sandwich|119
+The Pit Stop Cafe|Sandwiches|Cheese Corn Sandwich|129
+The Pit Stop Cafe|Sandwiches|Cheese Corn Paneer Sandwich|129
+The Pit Stop Cafe|Pasta|White Sauce Pasta|89
+The Pit Stop Cafe|Pasta|Red Sauce Pasta|89
+The Pit Stop Cafe|Pasta|Tandoori Pasta|109
+The Pit Stop Cafe|Pasta|Mix Sauce Pasta|119
+The Pit Stop Cafe|Vada Pav|Vada Pav|39
+The Pit Stop Cafe|Vada Pav|Cheese Vada Pav|55
+The Pit Stop Cafe|Snacks|Aloo Patties|30
+The Pit Stop Cafe|Snacks|Paneer Patties|40
+The Pit Stop Cafe|Snacks|Cheese Aloo Patties|50
+The Pit Stop Cafe|Snacks|Paneer Cheese Patties|69
+New Smart Cafe|Momos|Veg Steam Momos (Half)|40
+New Smart Cafe|Momos|Paneer Steam Momos (Half)|50
+New Smart Cafe|Momos|Veg Fry Momos (Half)|45
+New Smart Cafe|Momos|Paneer Fry Momos (Half)|55
+New Smart Cafe|Kurkure Momos|Veg Kurkure Momos (Half)|70
+New Smart Cafe|Kurkure Momos|Paneer Kurkure Momos (Half)|80
+New Smart Cafe|Gravy Momos|Veg Gravy Momos (Half)|70
+New Smart Cafe|Gravy Momos|Paneer Gravy Momos (Half)|80
+New Smart Cafe|Chilli Momos|Veg Chilli Momos (Half)|70
+New Smart Cafe|Chilli Momos|Paneer Chilli Momos (Half)|80
+New Smart Cafe|Noodles|Veg Noodles (Half)|40
+New Smart Cafe|Noodles|Veg Hakka Noodles (Half)|50
+New Smart Cafe|Noodles|Singapuri Noodles (Half)|60
+New Smart Cafe|Rice|Veg Fried Rice (Half)|50
+New Smart Cafe|Rice|Paneer Fried Rice (Half)|60
+New Smart Cafe|Rice|Singapuri Fried Rice (Half)|60
+New Smart Cafe|Potato|French Fries (Half)|40
+New Smart Cafe|Potato|Chilli Potato (Half)|60
+New Smart Cafe|Potato|Honey Chilli Potato (Half)|80
+New Smart Cafe|Roll|Veg Spring Roll|50
+New Smart Cafe|Roll|Veg Spring Kurkure Roll|70
+New Smart Cafe|Soup|Veg Soup|30
+New Smart Cafe|Soup|Veg Manchow Soup|40
+New Smart Cafe|Soup|Veg Hot & Sure Soup|40
+New Smart Cafe|Soup|Tomato Soup|40
+New Smart Cafe|Pasta & Maggie|White Sauce Pasta|60
+New Smart Cafe|Pasta & Maggie|Red Sauce Pasta|70
+New Smart Cafe|Pasta & Maggie|Mix Sauce Pasta|80
+New Smart Cafe|Pasta & Maggie|Veg Maggie|50
+New Smart Cafe|Pasta & Maggie|Fry Maggie|60
+New Smart Cafe|Pasta & Maggie|Paneer Maggie|60
+New Smart Cafe|Pasta & Maggie|Cheese Maggie|70
+New Smart Cafe|Pratha|Aloo Pratha|50
+New Smart Cafe|Pratha|Paneer Pratha|70
+New Smart Cafe|Pratha|Gobhi Pratha|60
+New Smart Cafe|Pratha|Aloo Piyaj Pratha|50
+Rich Kitchen|Drinks|Mini Mojito|50
+Rich Kitchen|Drinks|Cold Coffee|60
+Rich Kitchen|Drinks|Lemonade (Salt/Sweet)|50
+Rich Kitchen|Drinks|Chocolate Shake|60
+Rich Kitchen|Drinks|Oreo Shake|70
+Rich Kitchen|Drinks|Strawberry Shake|60
+Rich Kitchen|Drinks|Peach Iced Tea|60
+Rich Kitchen|Drinks|Lemon Iced Tea|60
+Rich Kitchen|Burgers|Aloo Tikki Burger|60
+Rich Kitchen|Burgers|Classic Veg Burger|70
+Rich Kitchen|Burgers|Classic Cheese Burger|80
+Rich Kitchen|Burgers|Paneer Tikka Burger|90
+Rich Kitchen|Fries|Salted Fries|60
+Rich Kitchen|Fries|Peri-Peri Fries|80
+Rich Kitchen|Sandwiches|Veg Grill Sandwich|60
+Rich Kitchen|Sandwiches|Aloo Masala Sandwich|70
+Rich Kitchen|Sandwiches|Cheese Corn Sandwich|80
+Rich Kitchen|Sandwiches|Paneer Tikka Sandwich|80
+Rich Kitchen|Thali Ghar Jaisi|Special Thali|70
+Rich Kitchen|Thali Ghar Jaisi|Deluxe Thali|90
+Rich Kitchen|Thali Ghar Jaisi|Corporate Thali|110
+Rich Kitchen|Rice Combo|Kadhi Rice (Half)|50
+Rich Kitchen|Rice Combo|Rajma Rice (Half)|50
+Rich Kitchen|Rice Combo|Choley Rice (Half)|50
+Rich Kitchen|Rice Combo|Dal Rice (Half)|50
+Rich Kitchen|Rice Combo|Paneer Rice (Half)|60
+Rich Kitchen|Direct Kitchen Se|Tawa Roti|7
+Rich Kitchen|Direct Kitchen Se|Aloo Paratha|35
+Rich Kitchen|Direct Kitchen Se|Aloo Pyaaz Paratha|35
+Rich Kitchen|Direct Kitchen Se|Mix Paratha|40
+Rich Kitchen|Direct Kitchen Se|Paneer Paratha|50
+Rich Kitchen|Veg Biryani|Veg Biryani (Half)|40
+Rich Kitchen|Veg Biryani|Veg Biryani (Full)|70
+Rich Kitchen|Snacks|Choley Bhature|80
+Rich Kitchen|Snacks|Kulhad Lassi|50
+Rich Kitchen|Snacks|Gulab Jamun (per pc)|15
+Rich Kitchen|Snacks|Samosa|18
+Rich Kitchen|Snacks|Samosa Chat|40
+Rich Kitchen|Snacks|Puri Sabji|70
+Rich Kitchen|Snacks|Boondi Raita|15
+Momo Mami|Steam Momo (6pcs)|Veg Steam Momo|79
+Momo Mami|Steam Momo (6pcs)|Veg Wheat Steam Momo|85
+Momo Mami|Steam Momo (6pcs)|Veg Schezwan Steam Momo|89
+Momo Mami|Steam Momo (6pcs)|Paneer Steam Momo|99
+Momo Mami|Steam Momo (6pcs)|Aloo Cheese Steam Momo|105
+Momo Mami|Steam Momo (6pcs)|Paneer Wheat Steam Momo|109
+Momo Mami|Steam Momo (6pcs)|Chicken Steam Momo|109
+Momo Mami|Steam Momo (6pcs)|Corn Cheese Steam Momo|119
+Momo Mami|Steam Momo (6pcs)|Chicken Wheat Steam Momo|119
+Momo Mami|Steam Momo (6pcs)|Chicken Schezwan Steam Momo|129
+Momo Mami|Steam Momo (6pcs)|Chicken Cheese Steam Momo|135
+Momo Mami|Steam Momo (6pcs)|Mutton Steam Momo|239
+Momo Mami|Zinger Dumpling (6pcs)|Veg Zinger Dumpling|129
+Momo Mami|Zinger Dumpling (6pcs)|Paneer Zinger Dumpling|135
+Momo Mami|Zinger Dumpling (6pcs)|Chicken Zinger Dumpling|139
+Momo Mami|Piro Piro Momo (6pcs)|Veg Piro Piro Momo|115
+Momo Mami|Piro Piro Momo (6pcs)|Paneer Piro Piro Momo|119
+Momo Mami|Piro Piro Momo (6pcs)|Chicken Piro Piro Momo|145
+Momo Mami|Fried Momo (6pcs)|Veg Fried Momo|99
+Momo Mami|Fried Momo (6pcs)|Veg Wheat Fried Momo|105
+Momo Mami|Fried Momo (6pcs)|Paneer Fried Momo|119
+Momo Mami|Fried Momo (6pcs)|Paneer Wheat Fried Momo|129
+Momo Mami|Fried Momo (6pcs)|Chicken Fried Momo|129
+Momo Mami|Fried Momo (6pcs)|Chicken Wheat Fried Momo|139
+Momo Mami|Pan Fried Momo (6pcs)|Veg Pan Fried Momo|119
+Momo Mami|Pan Fried Momo (6pcs)|Paneer Pan Fried Momo|125
+Momo Mami|Pan Fried Momo (6pcs)|Aloo Cheese Pan Fried Momo|129
+Momo Mami|Pan Fried Momo (6pcs)|Chicken Pan Fried Momo|135
+Momo Mami|Pan Fried Momo (6pcs)|Corn Cheese Pan Fried Momo|145
+Momo Mami|Chilli Momo (6pcs)|Veg Chilli Momo|129
+Momo Mami|Chilli Momo (6pcs)|Paneer Chilli Momo|135
+Momo Mami|Chilli Momo (6pcs)|Chicken Chilli Momo|139
+Momo Mami|Baozza Pizza Momo|Veg Baozza (3pcs)|119
+Momo Mami|Baozza Pizza Momo|Chicken Baozza (3pcs)|149
+Momo Mami|Chinese Starters|Chilli Paneer|175
+Momo Mami|Chinese Starters|Chilli Chicken|189
+Momo Mami|Chinese Starters|Salted French Fries|99
+Momo Mami|Chinese Starters|Piro Piro Fries|119
+Momo Mami|Fried Rice & Noodles|Veg Wheat Hakka Noodles/Rice|199
+Momo Mami|Fried Rice & Noodles|Paneer Wheat Hakka Noodles/Rice|219
+Momo Mami|Fried Rice & Noodles|Chicken Wheat Hakka Noodles/Rice|239
+Momo Mami|Spring Roll|Veg Spring Roll|109
+Momo Mami|Spring Roll|Chicken Spring Roll|145
+Momo Mami|Fried Chicken|Karaage Chicken (6pc)|179
+Momo Mami|Fried Chicken|Chicken Lollipop (6pc)|199
+Momo Mami|Fried Chicken|Chicken Wings (6pc)|199
+Momo Mami|Fried Chicken|Chicken Nuggets (6pc)|99
+Momo Mami|Thukpa|Veg Thukpa|179
+Momo Mami|Thukpa|Egg Thukpa|199
+Momo Mami|Thukpa|Chicken Thukpa|219
+Momo Mami|Soup|Veg Soup|149
+Momo Mami|Soup|Chicken Soup|169
+Momo Mami|Burger|Veg Burger|59
+Momo Mami|Burger|Paneer Burger|99
+Momo Mami|Burger|Chicken Burger|99
+Momo Mami|Burger|Egg Burger|99
+Momo Mami|Momos Burger|Veg Momos Burger|59
+Momo Mami|Momos Burger|Paneer Momos Burger|99
+Momo Mami|Momos Burger|Chicken Momos Burger|99
+Momo Mami|Wrap|Veg Wrap|59
+Momo Mami|Wrap|Paneer Wrap|99
+Momo Mami|Wrap|Chicken Wrap|99
+Momo Mami|Roll|Veg Roll|59
+Momo Mami|Roll|Paneer Roll|99
+Momo Mami|Roll|Chicken Roll|99
+Momo Mami|Pasta|Veg Pasta|99
+Momo Mami|Pasta|Paneer Pasta|149
+Momo Mami|Pasta|Chicken Pasta|149
+Momo Mami|Grilled Sandwich|Veg Sandwich|59
+Momo Mami|Grilled Sandwich|Paneer Sandwich|99
+Momo Mami|Grilled Sandwich|Chicken Sandwich|99
+Momo Mami|Laphing|Veg Laphing|99
+Momo Mami|Laphing|Paneer Laphing|129
+Momo Mami|Laphing|Chicken Laphing|149
+Momo Mami|Shakes|Oreo Caramel Shake|149
+Momo Mami|Shakes|Chocolate Shake|149
+Momo Mami|Shakes|Alfanso Mango Shake|149
+Momo Mami|Shakes|Blue Berry Shake|149
+Momo Mami|Shakes|Strawberry Shake|149
+Momo Mami|Shakes|Butter Scotch Shake|149
+Momo Mami|Mocktails|Mint Mojito|119
+Momo Mami|Mocktails|Water Melon Mocktail|119
+Momo Mami|Mocktails|Masala Lemonade|119
+Momo Mami|Mocktails|Khatta Meetha|129
+Momo Mami|Mocktails|Cold Coffee|129
+Momo Mami|Combo Meals|Chilli Paneer & Noodles|219
+Momo Mami|Combo Meals|Chilli Paneer & Fried Rice|219
+Momo Mami|Combo Meals|Chilli Chicken & Noodles|239
+Momo Mami|Combo Meals|Chilli Chicken & Fried Rice|239
+Momo Mami|Momo Combo|Veg Momo + Veg Spring Roll + Coke|179
+Momo Mami|Momo Combo|Paneer Momo + Veg Spring Roll + Coke|199
+Momo Mami|Momo Combo|Chicken Momo + Chicken Spring Roll + Coke|229
+`.trim();
+
+// ---------- Parse ----------
+const SHOPS = ["Rolla Rappaa","Chai Shala","Protein 360","WalkOn RestoBar & Club","Haveite","The Burger Company","N Square Cafe","Urban Zaika","Mittal's Bakery","The Pit Stop Cafe","New Smart Cafe","Rich Kitchen","Momo Mami"];
+
+const SHOP_PALETTE = [
+  '#EF4444', '#10B981', '#3B82F6', '#F59E0B',
+  '#8B5CF6', '#EC4899', '#14B8A6', '#6366F1',
+  '#84CC16', '#D97706', '#06B6D4', '#A855F7', '#F43F5E'
+];
+const shopColor = {};
+SHOPS.forEach((s,i)=> shopColor[s] = SHOP_PALETTE[i % SHOP_PALETTE.length]);
+
+const ITEMS = RAW.split("\n").map((line)=>{
+  const parts = line.split("|");
+  const shop = parts[0].trim();
+  const category = parts[1].trim();
+  const dish = parts[2].trim();
+  const priceRaw = parts[3].trim();
+  const priceNum = parseInt(priceRaw.match(/\d+/)[0],10);
+  const id = (shop+"__"+dish).toLowerCase().replace(/[^a-z0-9]+/g,'-');
+  return {id, shop, category, dish, priceRaw, priceNum};
+});
+
+// normalize a dish name into a "core" search key by stripping common size/variant words
+function normalize(str){
+  return str.toLowerCase()
+    .replace(/\(.*?\)/g,'')
+    .replace(/\b(half|full|small|regular|large|steam|fry|fried|kurkure|gravy|chilli|1pc|2pc|2pcs|4pcs|6pcs|12pcs|3pcs|5pcs|pack of 4|veg|paneer|chicken|egg|non veg|mutton)\b/g,'')
+    .replace(/[^a-z0-9]+/g,' ')
+    .trim();
+}
+ITEMS.forEach(it=> it.norm = normalize(it.dish));
+
+// group by base dish word
+function coreWord(str){
+  const words = normalize(str).split(' ').filter(Boolean);
+  return words.length? words[words.length-1] : str.toLowerCase();
+}
+ITEMS.forEach(it=> it.core = coreWord(it.dish));
+
+// ---------- Storage (shared likes) ----------
+let LIKES = {};
+let likesLoaded = false;
+async function loadLikes(){
+  try{
+    const res = await window.storage.get('likes', true);
+    LIKES = res && res.value ? JSON.parse(res.value) : {};
+  }catch(e){ LIKES = {}; }
+  likesLoaded = true;
+}
+async function saveLikes(){
+  try{ await window.storage.set('likes', JSON.stringify(LIKES), true); }catch(e){ /* ignore */ }
+}
+function likeCount(id){ return LIKES[id] || 0; }
+
+let sessionLiked = {};
+
+async function toggleLike(id, btnEl, countEl){
+  if(!likesLoaded) await loadLikes();
+  const already = sessionLiked[id];
+  if(already){
+    LIKES[id] = Math.max(0,(LIKES[id]||1)-1);
+    sessionLiked[id] = false;
+    btnEl.classList.remove('liked');
+  } else {
+    LIKES[id] = (LIKES[id]||0)+1;
+    sessionLiked[id] = true;
+    btnEl.classList.add('liked');
+    showToast('❤️ Added to leaderboard ranking!');
+  }
+  countEl.textContent = likeCount(id);
+  saveLikes();
+}
+
+function showToast(msg){
+  const toast = document.getElementById('toast');
+  if(!toast) return;
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(()=> toast.classList.remove('show'), 2200);
+}
+
+// ---------- Theme System ----------
+function initTheme(){
+  const saved = localStorage.getItem('tiffinboard_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  setTheme(saved);
+}
+
+function setTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('tiffinboard_theme', theme);
+  const icon = document.getElementById('themeIcon');
+  const label = document.getElementById('themeLabel');
+  if(icon && label){
+    if(theme === 'dark'){
+      icon.textContent = '🌙';
+      label.textContent = 'Dark';
+    } else {
+      icon.textContent = '☀️';
+      label.textContent = 'Light';
+    }
+  }
+}
+
+document.getElementById('themeToggle')?.addEventListener('click', ()=>{
+  const current = document.documentElement.getAttribute('data-theme') || 'light';
+  setTheme(current === 'light' ? 'dark' : 'light');
+});
+
+// ---------- Controls & Inputs ----------
+const main = document.getElementById('main');
+const searchInput = document.getElementById('search');
+const clearBtn = document.getElementById('clearBtn');
+const shopFilterSelect = document.getElementById('shopFilter');
+const sortFilterSelect = document.getElementById('sortFilter');
+let currentTab = 'search';
+
+// Populate Shop Filter Options
+function initShopFilter(){
+  SHOPS.sort().forEach(s =>{
+    const opt = document.createElement('option');
+    opt.value = s;
+    opt.textContent = s;
+    shopFilterSelect.appendChild(opt);
+  });
+}
+
+function fmtPrice(it){ return '₹'+it.priceRaw; }
+
+function renderLikeBtn(it){
+  const liked = !!sessionLiked[it.id];
+  return `<button class="like-btn ${liked?'liked':''}" data-id="${it.id}" title="Vote for this item">
+    <span class="heart">${liked?'♥':'♡'}</span><span class="like-count">${likeCount(it.id)}</span>
+  </button>`;
+}
+
+function attachLikeHandlers(container){
+  container.querySelectorAll('.like-btn').forEach(btn=>{
+    btn.addEventListener('click', async (e)=>{
+      e.stopPropagation();
+      const id = btn.dataset.id;
+      const countEl = btn.querySelector('.like-count');
+      const heart = btn.querySelector('.heart');
+      await toggleLike(id, btn, countEl);
+      heart.textContent = sessionLiked[id] ? '♥':'♡';
+    });
+  });
+}
+
+function groupBy(arr, keyFn){
+  const m = new Map();
+  arr.forEach(it=>{
+    const k = keyFn(it);
+    if(!m.has(k)) m.set(k, []);
+    m.get(k).push(it);
+  });
+  return m;
+}
+
+// ---------- Search Renderer ----------
+function renderSearch(query){
+  const shopFilterVal = shopFilterSelect.value;
+  const sortFilterVal = sortFilterSelect.value;
+
+  if(!query || query.trim().length===0){
+    main.innerHTML = `
+      <div class="empty">
+        <span class="empty-icon">🔍</span>
+        <span class="display font-display">Search or select a food item above</span>
+        Search across every laminated menu in I-Thum Food Court — cold coffee, momos, paneer roll, thali, burger, maggie... or tap any quick filter chip!
+      </div>`;
+    return;
+  }
+  const q = query.toLowerCase().trim();
+  let matches = ITEMS.filter(it => 
+    it.dish.toLowerCase().includes(q) || 
+    it.norm.includes(q) || 
+    it.category.toLowerCase().includes(q)
+  );
+
+  if(shopFilterVal){
+    matches = matches.filter(it => it.shop === shopFilterVal);
+  }
+
+  if(matches.length===0){
+    main.innerHTML = `
+      <div class="empty">
+        <span class="empty-icon">🍽️</span>
+        <span class="display font-display">No matches found</span>
+        Nobody's selling "${query}" ${shopFilterVal ? 'at ' + shopFilterVal : 'on this floor'} — try a shorter word, like "roll" or "momo".
+      </div>`;
+    return;
+  }
+
+  const groups = groupBy(matches, it => it.norm || it.dish.toLowerCase());
+  let groupArr = Array.from(groups.entries());
+
+  // Sort Dish Groups based on selection
+  if(sortFilterVal === 'cheapest'){
+    groupArr.sort((a,b)=> Math.min(...a[1].map(x=>x.priceNum)) - Math.min(...b[1].map(x=>x.priceNum)));
+  } else if(sortFilterVal === 'shops'){
+    groupArr.sort((a,b)=> b[1].length - a[1].length || a[0].localeCompare(b[0]));
+  } else if(sortFilterVal === 'name'){
+    groupArr.sort((a,b)=> a[0].localeCompare(b[0]));
+  }
+
+  let html = `
+    <div class="results-summary">
+      <span>Found <strong>${groupArr.length}</strong> dish group${groupArr.length>1?'s':''} (${matches.length} menu option${matches.length>1?'s':''})</span>
+    </div>`;
+
+  groupArr.forEach(([key, list])=>{
+    list.sort((a,b)=> a.priceNum - b.priceNum);
+    const minPrice = list[0].priceNum;
+    const maxPrice = Math.max(...list.map(x=>x.priceNum));
+    const savings = maxPrice - minPrice;
+    const label = list[0].dish;
+
+    html += `<div class="dish-group">
+      <div class="dish-head">
+        <div class="dish-head-left">
+          <h2 class="font-display">${label}</h2>
+          <span class="dish-count-tag">${list.length} shop${list.length>1?'s':''}</span>
+        </div>
+        ${savings > 0 ? `<span class="savings-badge">🏷️ Save up to ₹${savings}</span>` : ''}
+      </div>`;
+
+    list.forEach(it=>{
+      const isCheapest = list.length > 1 && it.priceNum === minPrice;
+      html += `<div class="row ${isCheapest?'cheapest':''}">
+        <div class="row-left">
+          <span class="shop-chip" style="background:${shopColor[it.shop]||'#999'}"></span>
+          <div class="shop-info">
+            <span class="shop-name">${it.shop}</span>
+            ${isCheapest ? '<span class="best-badge">Cheapest</span>' : ''}
+          </div>
+        </div>
+        <div class="row-right">
+          <span class="price">${fmtPrice(it)}</span>
+          ${renderLikeBtn(it)}
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+
+  main.innerHTML = html;
+  attachLikeHandlers(main);
+}
+
+// ---------- Browse Renderer ----------
+function renderBrowse(){
+  const cats = groupBy(ITEMS, it => it.core);
+  const catArr = Array.from(cats.entries()).sort((a,b)=> b[1].length-a[1].length).slice(0,40);
+  let html = '';
+  catArr.forEach(([core, list])=>{
+    if(!core) return;
+    const seen = new Map();
+    list.forEach(it=>{ if(!seen.has(it.norm)) seen.set(it.norm, it); });
+    html += `<div class="browse-cat">
+      <h3 class="font-display">${core} <span>${list.length} items</span></h3>
+      <div class="browse-grid">`;
+    Array.from(seen.values()).slice(0,24).forEach(it=>{
+      const minP = Math.min(...list.filter(x=>x.norm===it.norm).map(x=>x.priceNum));
+      html += `<div class="browse-item" data-q="${it.norm.replace(/"/g,'')}">
+        <span class="n">${it.dish}</span>
+        <span class="p">from ₹${minP}</span>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  main.innerHTML = html || `<div class="empty">No dishes loaded.</div>`;
+  main.querySelectorAll('.browse-item').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      switchTab('search');
+      searchInput.value = el.dataset.q;
+      updateClearBtn();
+      renderSearch(el.dataset.q);
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+  });
+}
+
+// ---------- Rank Leaderboard Renderer ----------
+function renderRank(){
+  const liked = ITEMS.filter(it => likeCount(it.id) > 0);
+  if(liked.length===0){
+    main.innerHTML = `
+      <div class="empty">
+        <span class="empty-icon">🏆</span>
+        <span class="display font-display">No ranked dishes yet</span>
+        Search any dish, find your favorites, and tap the heart icon ♡ — the leaderboard fills in as votes come in!
+      </div>`;
+    return;
+  }
+  liked.sort((a,b)=> likeCount(b.id)-likeCount(a.id) || a.priceNum-b.priceNum);
+  let html = '<div class="results-summary"><span>Top Office Meal Leaderboard</span></div>';
+  liked.slice(0,50).forEach((it,i)=>{
+    const topClass = i === 0 ? 'top-1' : i === 1 ? 'top-2' : i === 2 ? 'top-3' : '';
+    const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
+    html += `<div class="rank-item ${topClass}">
+      <div class="rank-num font-display">${medal}</div>
+      <div class="rank-mid">
+        <div class="rank-dish">${it.dish}</div>
+        <div class="rank-shop">
+          <span class="shop-chip" style="display:inline-block;background:${shopColor[it.shop]||'#999'}"></span> 
+          ${it.shop} · <strong>${fmtPrice(it)}</strong>
+        </div>
+      </div>
+      <div class="rank-right">
+        ${renderLikeBtn(it)}
+      </div>
+    </div>`;
+  });
+  main.innerHTML = html;
+  attachLikeHandlers(main);
+}
+
+function switchTab(tab){
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t=> t.classList.toggle('active', t.dataset.tab===tab));
+  if(tab==='search'){ 
+    renderSearch(searchInput.value); 
+  } else if(tab==='browse'){ 
+    renderBrowse(); 
+  } else if(tab==='rank'){ 
+    renderRank(); 
+  }
+}
+
+// ---------- Quick Chips Listener ----------
+document.querySelectorAll('.chip').forEach(chip =>{
+  chip.addEventListener('click', ()=>{
+    const isAlreadyActive = chip.classList.contains('active');
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    
+    if(isAlreadyActive){
+      searchInput.value = '';
+      updateClearBtn();
+      if(currentTab==='search') renderSearch('');
+    } else {
+      chip.classList.add('active');
+      const q = chip.dataset.query;
+      searchInput.value = q;
+      updateClearBtn();
+      switchTab('search');
+      renderSearch(q);
+    }
+  });
+});
+
+// ---------- Search Input & Clear Button Handlers ----------
+function updateClearBtn(){
+  clearBtn.style.display = searchInput.value.length > 0 ? 'flex' : 'none';
+}
+searchInput.addEventListener('input', ()=>{
+  updateClearBtn();
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  if(currentTab==='search') renderSearch(searchInput.value);
+});
+clearBtn.addEventListener('click', ()=>{
+  searchInput.value = '';
+  updateClearBtn();
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  if(currentTab==='search') renderSearch('');
+  searchInput.focus();
+});
+
+// Keyboard Shortcut: / key to focus search
+document.addEventListener('keydown', (e)=>{
+  if(e.key === '/' && document.activeElement !== searchInput){
+    e.preventDefault();
+    searchInput.focus();
+  }
+});
+
+// Filter Select Listeners
+shopFilterSelect.addEventListener('change', ()=>{ if(currentTab==='search') renderSearch(searchInput.value); });
+sortFilterSelect.addEventListener('change', ()=>{ if(currentTab==='search') renderSearch(searchInput.value); });
+
+// Tab Listeners
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click', ()=> switchTab(t.dataset.tab));
+});
+
+// ---------- Initialization ----------
+(async function init(){
+  initTheme();
+  initShopFilter();
+  await loadLikes();
+  switchTab('search');
+})();
+</script>
+</body>
+</html>
+
