@@ -728,9 +728,228 @@
     font-size: 12px; color: var(--text-light); text-align: center;
   }
 
+  /* Shop Contacts & Directory Styling */
+  .shop-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  .shop-name-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .contact-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-top: 1px;
+  }
+  .contact-inline .phone-icon {
+    font-size: 11px;
+    opacity: 0.75;
+  }
+  .contact-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+  .contact-link:hover {
+    color: var(--primary);
+    text-decoration: underline;
+  }
+  .contact-tag {
+    font-size: 9.5px;
+    font-weight: 700;
+    background: var(--bg-subtle);
+    color: var(--text-muted);
+    padding: 1px 6px;
+    border-radius: 6px;
+    border: 1px solid var(--border-subtle);
+    margin-left: 2px;
+  }
+  .contact-tag.wa {
+    background: #DCFCE7;
+    color: #166534;
+    border-color: #86EFAC;
+  }
+  [data-theme="dark"] .contact-tag.wa {
+    background: rgba(22, 101, 52, 0.4);
+    color: #4ADE80;
+    border-color: #166534;
+  }
+
+  /* Contacts Directory View */
+  .contacts-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .contacts-header h2 {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 6px;
+    color: var(--text-main);
+  }
+  .contacts-header p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin: 0;
+  }
+  .contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+  .directory-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .directory-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--shop-accent, var(--primary));
+  }
+  .directory-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  .dir-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .dir-shop-title {
+    font-size: 16.5px;
+    font-weight: 800;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dir-dish-count {
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--bg-subtle);
+    color: var(--text-muted);
+    padding: 3px 8px;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    white-space: nowrap;
+  }
+  .dir-numbers {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .dir-num-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-subtle);
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-subtle);
+    gap: 8px;
+  }
+  .dir-num-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    flex-wrap: wrap;
+  }
+  .dir-actions {
+    display: flex;
+    gap: 6px;
+    flex: none;
+  }
+  .btn-call {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 11.5px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+  .btn-call:hover {
+    background: var(--primary);
+    color: #ffffff;
+  }
+  .btn-wa {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: #DCFCE7;
+    color: #166534;
+    border: 1px solid #86EFAC;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 11.5px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+  [data-theme="dark"] .btn-wa {
+    background: rgba(22, 101, 52, 0.3);
+    color: #4ADE80;
+    border-color: #166534;
+  }
+  .btn-wa:hover {
+    background: #22C55E;
+    color: #ffffff;
+    border-color: #22C55E;
+  }
+  .btn-explore {
+    width: 100%;
+    margin-top: 10px;
+    background: var(--bg-subtle);
+    color: var(--text-main);
+    border: 1px solid var(--border-card);
+    padding: 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .btn-explore:hover {
+    background: var(--border-card);
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
   @media (max-width: 600px) {
     .controls-bar { flex-direction: column; align-items: stretch; }
-    .tabs { justify-content: center; }
+    .tabs { justify-content: center; flex-wrap: wrap; }
     .filter-group { justify-content: space-between; }
     .top-navbar .stats-pill { display: none; }
   }
@@ -745,7 +964,7 @@
     Kshitiz's Foodie Meter
   </a>
   <div class="top-actions">
-    <span class="stats-pill" id="statsPill">13 Shops · 400+ Dishes</span>
+    <span class="stats-pill" id="statsPill">14 Outlets · 400+ Dishes</span>
     <button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark Theme">
       <span id="themeIcon">☀️</span> <span id="themeLabel">Light</span>
     </button>
@@ -789,11 +1008,12 @@
     <button class="tab active" data-tab="search">🔍 Search & Compare</button>
     <button class="tab" data-tab="browse">🍱 Browse Categories</button>
     <button class="tab" data-tab="rank">🏆 Top Ranked</button>
+    <button class="tab" data-tab="contacts">📞 Shop Directory</button>
   </div>
   
   <div class="filter-group">
     <select class="select-input" id="shopFilter">
-      <option value="">All 13 Shops</option>
+      <option value="">All Outlets</option>
     </select>
     <select class="select-input" id="sortFilter">
       <option value="cheapest">Cheapest First</option>
@@ -1802,15 +2022,81 @@ Momo Mami|Momo Combo|Paneer Momo + Veg Spring Roll + Coke|199
 Momo Mami|Momo Combo|Chicken Momo + Chicken Spring Roll + Coke|229
 `.trim();
 
+// ---------- Shop Contacts ----------
+const SHOP_CONTACTS = {
+  "Rolla Rappaa": [
+    { number: "+91 92366 36137", clean: "+919236636137", label: "" }
+  ],
+  "The Chai Art (Cafe)": [
+    { number: "87961 28847", clean: "+918796128847", label: "" },
+    { number: "70423 43618", clean: "+917042343618", label: "" }
+  ],
+  "Chai Shala": [
+    { number: "70656 50030", clean: "+917065650030", label: "" },
+    { number: "74282 21301", clean: "+917428221301", label: "" }
+  ],
+  "Protein 360": [
+    { number: "88517 41307", clean: "+918851741307", label: "G-27" }
+  ],
+  "Protein 360 (G-27)": [
+    { number: "88517 41307", clean: "+918851741307", label: "G-27" }
+  ],
+  "WalkOn RestoBar & Club": [
+    { number: "92056 71124", clean: "+919205671124", label: "reservations" }
+  ],
+  "Haveite": [
+    { number: "+91 92054 11060", clean: "+919205411060", label: "Viber" },
+    { number: "+91 93156 88738", clean: "+919315688738", label: "WhatsApp", isWa: true }
+  ],
+  "The Burger Company": [
+    { number: "88104 08040", clean: "+918810408040", label: "" }
+  ],
+  "N Square Cafe": [
+    { number: "+91 83360 96121", clean: "+918336096121", label: "" }
+  ],
+  "Urban Zaika": [
+    { number: "+91 92203 03701", clean: "+919220303701", label: "" }
+  ],
+  "Mittal's Bakery": [
+    { number: "78408 17876", clean: "+917840817876", label: "" },
+    { number: "96543 72724", clean: "+919654372724", label: "" }
+  ],
+  "The Pit Stop Cafe": [
+    { number: "96430 69289", clean: "+919643069289", label: "" }
+  ],
+  "New Smart Cafe": [
+    { number: "87502 11359", clean: "+918750211359", label: "" },
+    { number: "84487 76991", clean: "+918448776991", label: "" }
+  ],
+  "Rich Kitchen": [
+    { number: "88820 52408", clean: "+918882052408", label: "" }
+  ],
+  "Momo Mami": [
+    { number: "74282 69961", clean: "+917428269961", label: "free delivery" },
+    { number: "92173 94974", clean: "+919217394974", label: "Yangkiez/ZenChina line" }
+  ]
+};
+
+function getContactHTML(shopName){
+  const contacts = SHOP_CONTACTS[shopName];
+  if(!contacts || !contacts.length) return '';
+  return `<div class="contact-inline">
+    <span class="phone-icon">📞</span>
+    ${contacts.map(c=>`<a href="tel:${c.clean}" class="contact-link" onclick="event.stopPropagation()">${c.number}</a>${c.label?`<span class="contact-tag ${c.isWa?'wa':''}">${c.label}</span>`:''}`).join('<span style="opacity:0.4;margin:0 4px;">/</span>')}
+  </div>`;
+}
+
 // ---------- Parse ----------
 const SHOPS = ["Rolla Rappaa","Chai Shala","Protein 360","WalkOn RestoBar & Club","Haveite","The Burger Company","N Square Cafe","Urban Zaika","Mittal's Bakery","The Pit Stop Cafe","New Smart Cafe","Rich Kitchen","Momo Mami"];
 
 const SHOP_PALETTE = [
   '#EF4444', '#10B981', '#3B82F6', '#F59E0B',
   '#8B5CF6', '#EC4899', '#14B8A6', '#6366F1',
-  '#84CC16', '#D97706', '#06B6D4', '#A855F7', '#F43F5E'
+  '#84CC16', '#D97706', '#06B6D4', '#A855F7', '#F43F5E', '#06B6D4'
 ];
-const shopColor = {};
+const shopColor = {
+  "The Chai Art (Cafe)": "#EC4899"
+};
 SHOPS.forEach((s,i)=> shopColor[s] = SHOP_PALETTE[i % SHOP_PALETTE.length]);
 
 const ITEMS = RAW.split("\n").map((line)=>{
@@ -1920,7 +2206,9 @@ let currentTab = 'search';
 
 // Populate Shop Filter Options
 function initShopFilter(){
-  SHOPS.sort().forEach(s =>{
+  const allShopsList = Array.from(new Set([...SHOPS, ...Object.keys(SHOP_CONTACTS)])).sort();
+  allShopsList.forEach(s =>{
+    if(s === "Protein 360 (G-27)") return;
     const opt = document.createElement('option');
     opt.value = s;
     opt.textContent = s;
@@ -2034,8 +2322,11 @@ function renderSearch(query){
         <div class="row-left">
           <span class="shop-chip" style="background:${shopColor[it.shop]||'#999'}"></span>
           <div class="shop-info">
-            <span class="shop-name">${it.shop}</span>
-            ${isCheapest ? '<span class="best-badge">Cheapest</span>' : ''}
+            <div class="shop-name-wrap">
+              <span class="shop-name">${it.shop}</span>
+              ${isCheapest ? '<span class="best-badge">Cheapest</span>' : ''}
+            </div>
+            ${getContactHTML(it.shop)}
           </div>
         </div>
         <div class="row-right">
@@ -2109,6 +2400,7 @@ function renderRank(){
           <span class="shop-chip" style="display:inline-block;background:${shopColor[it.shop]||'#999'}"></span> 
           ${it.shop} · <strong>${fmtPrice(it)}</strong>
         </div>
+        ${getContactHTML(it.shop)}
       </div>
       <div class="rank-right">
         ${renderLikeBtn(it)}
@@ -2117,6 +2409,75 @@ function renderRank(){
   });
   main.innerHTML = html;
   attachLikeHandlers(main);
+}
+
+// ---------- Shop Directory Renderer ----------
+function renderContacts(){
+  const allShops = Array.from(new Set([...SHOPS, ...Object.keys(SHOP_CONTACTS)])).sort();
+  let html = `
+    <div class="contacts-header">
+      <h2 class="font-display">📞 Shop Contact Directory</h2>
+      <p>Direct phone numbers & ordering contacts for all I-Thum Food Court outlets</p>
+    </div>
+    <div class="contacts-grid">`;
+
+  allShops.forEach(shop =>{
+    if (shop === "Protein 360 (G-27)") return;
+
+    const contacts = SHOP_CONTACTS[shop] || [];
+    const dishCount = ITEMS.filter(it => it.shop === shop).length;
+    const color = shopColor[shop] || '#D94A38';
+
+    html += `<div class="directory-card" style="--shop-accent:${color}">
+      <div>
+        <div class="dir-card-head">
+          <div class="dir-shop-title">
+            <span class="shop-chip" style="background:${color};width:12px;height:12px;display:inline-block;"></span>
+            ${shop}
+          </div>
+          ${dishCount ? `<span class="dir-dish-count">${dishCount} items</span>` : '<span class="dir-dish-count">Outlet</span>'}
+        </div>
+        <div class="dir-numbers">`;
+
+    if(contacts.length > 0){
+      contacts.forEach(c =>{
+        html += `<div class="dir-num-row">
+          <div class="dir-num-info">
+            <span>📞</span>
+            <a href="tel:${c.clean}" class="contact-link">${c.number}</a>
+            ${c.label ? `<span class="contact-tag ${c.isWa ? 'wa' : ''}">${c.label}</span>` : ''}
+          </div>
+          <div class="dir-actions">
+            <a href="tel:${c.clean}" class="btn-call" title="Call ${c.number}">Call</a>
+            ${c.isWa ? `<a href="https://wa.me/${c.clean.replace(/\+/g,'')}" target="_blank" class="btn-wa" title="WhatsApp">WhatsApp</a>` : ''}
+          </div>
+        </div>`;
+      });
+    } else {
+      html += `<div class="dir-num-row"><span style="color:var(--text-light);font-size:12px;">No contact listed</span></div>`;
+    }
+
+    html += `</div>
+      </div>
+      ${dishCount ? `
+        <button class="btn-explore" onclick="filterByShop('${shop.replace(/'/g, "\\'")}')">
+          🔍 View ${shop} Menu (${dishCount} items)
+        </button>
+      ` : ''}
+    </div>`;
+  });
+
+  html += `</div>`;
+  main.innerHTML = html;
+}
+
+function filterByShop(shopName){
+  shopFilterSelect.value = shopName;
+  switchTab('search');
+  searchInput.value = '';
+  updateClearBtn();
+  renderSearch('');
+  window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
 function switchTab(tab){
@@ -2128,6 +2489,8 @@ function switchTab(tab){
     renderBrowse(); 
   } else if(tab==='rank'){ 
     renderRank(); 
+  } else if(tab==='contacts'){
+    renderContacts();
   }
 }
 
